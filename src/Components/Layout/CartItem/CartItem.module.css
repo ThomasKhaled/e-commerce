@@ -1,0 +1,64 @@
+.cartItemImg {
+    height: 100px;
+    background-size: cover;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (max-width: 400px) {
+    .cartItemImg {
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-left: 0 !important;
+    }
+
+    .imgGrid {
+        padding-left: 0 !important;
+    }
+
+    .title {
+        font-size: .7rem !important;
+    }
+
+    .price {
+        font-size: 1rem !important;
+    }
+
+    .cartItemInfo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.dollarSign {
+    font-weight: bold;
+    margin-right: .3rem;
+}
+
+.title {
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+.price {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: .4rem;
+}
+
+.status {
+    font-size: .7rem;
+}
+
+.cartItemInfo {
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+}
+
+.deleteItem {
+    cursor: pointer;
+}

@@ -1,0 +1,25 @@
+.pageContainer {
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.background {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    z-index: -1;
+    background: url('../../assets/images/authenticationBG.jpg') no-repeat;
+    background-size: cover;
+    filter: blur(5px);
+}
+
+.gridContainer {
+    min-height: 100vh;
+}
+
+.formContainer {
+    background-color: var(--formColor);
+    border-radius: 12px;
+    padding: 16px;
+}

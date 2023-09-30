@@ -1,0 +1,80 @@
+.mainContainer {
+    min-height: 100vh;
+    position: relative;
+}
+
+.header {
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.totalPrice {
+    font-weight: bold;
+}
+
+.itemsDivider {
+    margin-top: 1rem;
+}
+
+.cartItem {
+    padding: 20px 0 20px;
+}
+
+.clearCart {
+    cursor: pointer;
+}
+
+.clearCart:hover {
+    color: var(--mainColor);
+}
+
+
+.alertItemAdded {
+    position: fixed;
+    top: 70px;
+    width: 100vw;
+    z-index: 12;
+    transition: .5s;
+    animation: alertDissappear 4s forwards;
+}
+
+@keyframes alertDissappear {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .cartGrid {
+        padding-left: 0 !important;
+    }
+
+    .cartGridContainer {
+        padding: 20px !important;
+        padding-top: 80px !important;
+        margin-left: 0 !important;
+    }
+
+    .subPriceInfo span {
+        font-size: .9rem !important;
+    }
+}
+
+.footer {
+    background-color: black;
+    line-height: 30px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin-top: 35px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+
+}
