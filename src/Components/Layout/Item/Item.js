@@ -37,7 +37,7 @@ const Item = ({
         title={title}
         image={urlImg}
         className={styles.itemImg}
-        sx={{ padding: "1em 1em 0 1em", objectFit: "contain" }}
+        sx={{ padding: "1em 1em 0 1em" }}
         onClick={onClick}
       />
       <CardContent className={styles.itemText} onClick={onClick}>
