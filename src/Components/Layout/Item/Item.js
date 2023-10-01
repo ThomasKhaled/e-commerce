@@ -36,6 +36,7 @@ const Item = ({
       <CardMedia
         title={title}
         image={urlImg}
+        id="card-media"
         className={styles.itemImg}
         sx={{ padding: "1em 1em 0 1em" }}
         onClick={onClick}
