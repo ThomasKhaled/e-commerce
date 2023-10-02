@@ -10,7 +10,8 @@ import Button from "@mui/material/Button";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useSelector } from "react-redux/es/hooks/useSelector";
-import * as Yup from "yup";
+import { mergedSchemas } from "./validationSchemas";
+import { validationSchemas } from "./validationSchemas";
 import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
@@ -28,13 +29,9 @@ const SignIn = () => {
     borderColor: "white",
   };
 
-  const validationSchema = Yup.object({
-    email: Yup.string()
-      .email("Invalid email format")
-      .required("Email is required"),
-    password: Yup.string().required("Password is required"),
-  });
-
+  const emailSchema = validationSchemas.email;
+  const passwordSchema = validationSchemas.password;
+  const merged_Schemas = mergedSchemas(emailSchema, passwordSchema);
   return signStatus === "sign_up" ? (
     <Signup />
   ) : (
@@ -60,7 +57,7 @@ const SignIn = () => {
               email: "",
               password: "",
             }}
-            validationSchema={validationSchema}
+            validationSchema={merged_Schemas}
             onSubmit={(values) => {
               if (state === null) {
                 alert("Register first!");

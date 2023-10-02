@@ -16,9 +16,11 @@ import { Checkbox } from "@mui/material";
 import Button from "@mui/material/Button";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import * as Yup from "yup";
+import { validationSchemas } from "./validationSchemas";
 import { useDispatch } from "react-redux/";
 import { signUp } from "../Redux/Authentication/authenticationSlice";
+import mainAuthenticationStyle from "./mainAuthenticationStyle";
+import { mergedSchemas } from "./validationSchemas";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -34,31 +36,26 @@ const Signup = () => {
     setGender(event.target.value);
   };
 
-  const textFieldColor = {
-    color: "white",
-    fontSize: "1.1rem",
-    borderColor: "white",
-  };
+  const mainStyle = mainAuthenticationStyle().inputContainer;
 
   const handleSignup = (user) => {
     dispatch(signUp(user));
     setSignStatus("sign_in");
   };
 
-  const validationSchema = Yup.object({
-    userName: Yup.string().required("Username is required"),
-    phoneNumber: Yup.string().required("Phone number is required"),
-    email: Yup.string()
-      .email("Invalid email format")
-      .required("Email is required"),
-    password: Yup.string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Password is required"),
-    confirmPassword: Yup.string().oneOf(
-      [Yup.ref("password"), null],
-      "Passwords must match"
-    ), // Ensure it matches the 'password' field.required('Please confirm your password'),
-  });
+  const usernameSchema = validationSchemas.userName;
+  const phoneNumberSchema = validationSchemas.phoneNumber;
+  const emailSchema = validationSchemas.email;
+  const passwordSchema = validationSchemas.password;
+  const confirmPasswordSchema = validationSchemas.confirmPassword;
+
+  const merged_Schemas = mergedSchemas(
+    usernameSchema,
+    phoneNumberSchema,
+    emailSchema,
+    passwordSchema,
+    confirmPasswordSchema
+  );
 
   return signStatus === "sign_in" ? (
     <SignIn />
@@ -88,10 +85,10 @@ const Signup = () => {
               password: "",
               confirmPassword: "",
             }}
-            validationSchema={validationSchema}
+            validationSchema={merged_Schemas}
             onSubmit={(values) => {}}
           >
-            {(props) => (
+            {({ errors, touched, values }) => (
               <Form>
                 <Grid
                   container
@@ -107,10 +104,10 @@ const Signup = () => {
                       onChange={handleSignChange}
                       aria-label="Platform"
                     >
-                      <ToggleButton value="sign_in" style={textFieldColor}>
+                      <ToggleButton value="sign_in" style={mainStyle}>
                         Sign In
                       </ToggleButton>
-                      <ToggleButton value="sign_up" style={textFieldColor}>
+                      <ToggleButton value="sign_up" style={mainStyle}>
                         Sign Up
                       </ToggleButton>
                     </ToggleButtonGroup>
@@ -121,11 +118,7 @@ const Signup = () => {
                     <AccountCircleIcon color="primary" fontSize="large" />
                   </Grid>
                   <Grid item>
-                    <Typography
-                      variant="h6"
-                      color="initial"
-                      style={textFieldColor}
-                    >
+                    <Typography variant="h6" color="initial" style={mainStyle}>
                       Sign Up
                     </Typography>
                   </Grid>
@@ -133,7 +126,7 @@ const Signup = () => {
                     <Typography
                       variant="body2"
                       color="initial"
-                      style={textFieldColor}
+                      style={mainStyle}
                     >
                       Please fill this form to create an account!
                     </Typography>
@@ -151,13 +144,11 @@ const Signup = () => {
                   focused
                   fullWidth
                   margin="normal"
-                  error={
-                    props.touched.userName && Boolean(props.errors.userName)
-                  }
-                  helperText={props.touched.userName && props.errors.userName}
+                  error={touched.userName && Boolean(errors.userName)}
+                  helperText={touched.userName && errors.userName}
                   className={styles.test}
                   InputProps={{
-                    style: textFieldColor, // Apply the custom styles to the input element
+                    style: mainStyle, // Apply the custom styles to the input element
                   }}
                 />
                 <Field
@@ -166,21 +157,21 @@ const Signup = () => {
                   label="Email"
                   name="email"
                   type="email"
-                  error={props.touched.email && Boolean(props.errors.email)}
-                  helperText={props.touched.email && props.errors.email}
+                  error={touched.email && Boolean(errors.email)}
+                  helperText={touched.email && errors.email}
                   placeholder="Email"
                   fullWidth
                   variant="filled"
                   color="info"
                   focused
                   InputProps={{
-                    style: textFieldColor, // Apply the custom styles to the input element
+                    style: mainStyle, // Apply the custom styles to the input element
                   }}
                 />
                 <FormControl margin="normal">
                   <FormLabel
                     id="demo-controlled-radio-buttons-group"
-                    style={textFieldColor}
+                    style={mainStyle}
                   >
                     Gender
                   </FormLabel>
@@ -189,7 +180,7 @@ const Signup = () => {
                     name="controlled-radio-buttons-group"
                     value={gender}
                     onChange={handleGenderChange}
-                    style={textFieldColor}
+                    style={mainStyle}
                   >
                     <Grid container>
                       <Grid item>
@@ -216,18 +207,13 @@ const Signup = () => {
                   placeholder="Phone Number"
                   fullWidth
                   margin="normal"
-                  error={
-                    props.touched.phoneNumber &&
-                    Boolean(props.errors.phoneNumber)
-                  }
-                  helperText={
-                    props.touched.phoneNumber && props.errors.phoneNumber
-                  }
+                  error={touched.phoneNumber && Boolean(errors.phoneNumber)}
+                  helperText={touched.phoneNumber && errors.phoneNumber}
                   variant="filled"
                   color="info"
                   focused
                   InputProps={{
-                    style: textFieldColor, // Apply the custom styles to the input element
+                    style: mainStyle, // Apply the custom styles to the input element
                   }}
                 />
                 <Field
@@ -239,15 +225,13 @@ const Signup = () => {
                   placeholder="Password"
                   fullWidth
                   margin="normal"
-                  error={
-                    props.touched.password && Boolean(props.errors.password)
-                  }
-                  helperText={props.touched.password && props.errors.password}
+                  error={touched.password && Boolean(errors.password)}
+                  helperText={touched.password && errors.password}
                   variant="filled"
                   color="info"
                   focused
                   InputProps={{
-                    style: textFieldColor, // Apply the custom styles to the input element
+                    style: mainStyle, // Apply the custom styles to the input element
                   }}
                 />
                 <Field
@@ -260,18 +244,14 @@ const Signup = () => {
                   fullWidth
                   margin="normal"
                   error={
-                    props.touched.confirmPassword &&
-                    Boolean(props.errors.confirmPassword)
+                    touched.confirmPassword && Boolean(errors.confirmPassword)
                   }
-                  helperText={
-                    props.touched.confirmPassword &&
-                    props.errors.confirmPassword
-                  }
+                  helperText={touched.confirmPassword && errors.confirmPassword}
                   variant="filled"
                   color="primary"
                   focused
                   InputProps={{
-                    style: textFieldColor, // Apply the custom styles to the input element
+                    style: mainStyle, // Apply the custom styles to the input element
                   }}
                 />
                 <FormGroup>
@@ -283,22 +263,22 @@ const Signup = () => {
                       />
                     }
                     label="I accept the terms and conditions."
-                    style={textFieldColor}
+                    style={mainStyle}
                   ></FormControlLabel>
                 </FormGroup>
                 <Button
                   type="submit"
                   variant="contained"
                   sx={{ marginTop: 2, marginBottom: 2 }}
-                  style={textFieldColor}
+                  style={mainStyle}
                   onClick={() => {
                     if (acceptTerms) {
                       const user = {
-                        userName: props.values.userName,
-                        email: props.values.email,
+                        userName: values.userName,
+                        email: values.email,
                         gender: gender,
-                        phoneNumber: props.values.phoneNumber,
-                        password: props.values.password,
+                        phoneNumber: values.phoneNumber,
+                        password: values.password,
                       };
                       handleSignup(user);
                     } else {
