@@ -65,6 +65,9 @@ export default function PrimarySearchAppBar() {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const state = useSelector((state) => state.auth.user);
+  const username = `${state.userName[0].toUpperCase()}${state.userName
+    .toString()
+    .slice(1)}`;
   const cartState = useSelector((state) => state.cart.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -173,7 +176,7 @@ export default function PrimarySearchAppBar() {
               sx={{ marginRight: 1, marginLeft: 1 }}
               color={mainColor}
             >
-              Hello, {state.userName}
+              Hello, {username}
             </Typography>
             <IconButton size="large" color="inherit" onClick={handleGoToCart}>
               <Badge badgeContent={cartState.length} color="error">
