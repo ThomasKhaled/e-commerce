@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
@@ -30,7 +30,7 @@ function Item(props) {
 
 const CarouselMain = () => {
   const [posts, setPosts] = useState(null);
-  useLayoutEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       axios.get(baseURL).then((response) => {
         setPosts(response.data);

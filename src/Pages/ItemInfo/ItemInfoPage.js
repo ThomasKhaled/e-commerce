@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Header from "../../Layout/Header/Header";
 import Footer from "../../Layout/Footer/Footer";
 import { useLocation } from "react-router-dom";
@@ -37,7 +37,7 @@ const ItemInfoPage = () => {
   };
 
   const firstUpdate = useRef(true);
-  useLayoutEffect(() => {
+  useEffect(() => {
     let timer;
 
     if (firstUpdate.current) {

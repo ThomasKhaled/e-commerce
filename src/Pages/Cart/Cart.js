@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Header from "../../Layout/Header/Header";
 import Footer from "../../Layout/Footer/Footer";
 import styles from "./Cart.module.css";
@@ -22,7 +22,7 @@ const Cart = () => {
   };
 
   const firstUpdate = useRef(true);
-  useLayoutEffect(() => {
+  useEffect(() => {
     let timer;
 
     if (firstUpdate.current) {

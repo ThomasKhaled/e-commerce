@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
-import Header from "../../Layout/Header/Header";
-import Footer from "../../Layout/Footer/Footer";
+import React, { useState, useEffect, useRef } from "react";
+import Header from "../../Components/Layout/Header/Header";
+import Footer from "../../Components/Layout/Footer/Footer";
 import styles from "./MainPage.module.css";
-import CarouselMain from "../../Layout/Carousel/CarouselMain";
-import CategoryCard from "../../Layout/CategoryCard/CategoryCard";
+import CarouselMain from "../../Components/Layout/Carousel/CarouselMain";
+import CategoryCard from "../../Components/Layout/CategoryCard/CategoryCard";
 import Fab from "@mui/material/Fab";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useSelector } from "react-redux/es/hooks/useSelector";
@@ -24,7 +24,7 @@ const MainPage = () => {
   }, []);
 
   const firstUpdate = useRef(true);
-  useLayoutEffect(() => {
+  useEffect(() => {
     let timer;
 
     if (firstUpdate.current) {
