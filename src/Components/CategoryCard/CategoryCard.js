@@ -4,7 +4,7 @@ import Item from "../Item/Item";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import styles from "./CategoryCard.module.css";
-import useAPI from "../../../hooks/useAPI";
+import useAPI from "../../hooks/useAPI";
 import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 

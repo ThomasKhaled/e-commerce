@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import Header from "../../Layout/Header/Header";
-import Footer from "../../Layout/Footer/Footer";
+import Header from "../../Components/Header/Header";
+import Footer from "../../Components/Footer/Footer";
 import { useLocation } from "react-router-dom";
 import styles from "./ItemInfoPage.module.css";
 import Paper from "@mui/material/Paper";

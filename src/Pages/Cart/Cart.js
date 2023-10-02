@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import Header from "../../Layout/Header/Header";
-import Footer from "../../Layout/Footer/Footer";
+import Header from "../../Components/Header/Header";
+import Footer from "../../Components/Footer/Footer";
 import styles from "./Cart.module.css";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useSelector, useDispatch } from "react-redux";
-import CartItem from "../../Layout/CartItem/CartItem";
+import CartItem from "../../Components/CartItem/CartItem";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import Header from "../../Components/Layout/Header/Header";
-import Footer from "../../Components/Layout/Footer/Footer";
+import Header from "../../Components/Header/Header";
+import Footer from "../../Components/Footer/Footer";
 import styles from "./MainPage.module.css";
-import CarouselMain from "../../Components/Layout/Carousel/CarouselMain";
-import CategoryCard from "../../Components/Layout/CategoryCard/CategoryCard";
+import CarouselMain from "../../Components/Carousel/CarouselMain";
+import CategoryCard from "../../Components/CategoryCard/CategoryCard";
 import Fab from "@mui/material/Fab";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useSelector } from "react-redux/es/hooks/useSelector";

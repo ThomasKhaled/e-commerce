@@ -18,7 +18,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux/";
-import { signUp } from "../Components/Redux/Authentication/authenticationSlice";
+import { signUp } from "../Redux/Authentication/authenticationSlice";
 
 const Signup = () => {
   const dispatch = useDispatch();
