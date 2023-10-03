@@ -11,13 +11,16 @@ import Divider from "@mui/material/Divider";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import { clearCart } from "../../Redux/Cart/cartSlice";
 import Alert from "@mui/material/Alert";
+
 const Cart = () => {
   const cartState = useSelector((state) => state.cart.cart);
   const cartTotalPrice = useSelector((state) => state.cart.totalPrice);
   const [isCartCleared, setIsCartCleared] = useState(false);
+  const [isClearCartPressed, setIsClearCartPressed] = useState(false);
   const dispatch = useDispatch();
 
   const handleClearCart = () => {
+    setIsClearCartPressed(true);
     if (cartState.length > 0) dispatch(clearCart());
   };
 
@@ -29,23 +32,30 @@ const Cart = () => {
       firstUpdate.current = false;
       return;
     }
-    setIsCartCleared(true);
+    if (isClearCartPressed) {
+      setIsCartCleared(true);
 
-    timer = setTimeout(() => {
-      setIsCartCleared(false);
-    }, 4000); // 5000 milliseconds = 5 seconds
+      timer = setTimeout(() => {
+        setIsCartCleared(false);
+      }, 4000);
+    }
 
     return () => {
       clearTimeout(timer);
     };
-  }, [cartState]);
+  }, [cartState, isClearCartPressed]);
+
   return (
     <Box className={styles.mainContainer}>
       <div className={`${styles.header}`}>
         <Header />
       </div>
       {isCartCleared && (
-        <Alert className={styles.alertItemAdded} severity="error">
+        <Alert
+          className={styles.alertItemAdded}
+          variant="filled"
+          severity="error"
+        >
           Cart Cleared!
         </Alert>
       )}
@@ -95,6 +105,7 @@ const Cart = () => {
                   img={product.urlImg}
                   title={product.title}
                   price={product.price}
+                  quantity={product.quantity}
                 />
               </div>
               <Divider className={styles.itemsDivider} />
@@ -118,7 +129,10 @@ const Cart = () => {
                 ({cartState.length} item)
               </Typography>
             )}
-            : <span className={styles.totalPrice}>$ {cartTotalPrice}</span>
+            :{" "}
+            <span className={styles.totalPrice}>
+              $ {+cartTotalPrice.toFixed(2)}
+            </span>
           </Typography>
         </Grid>
       </Grid>

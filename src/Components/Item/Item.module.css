@@ -32,8 +32,10 @@
 
 .itemPrice {
     font-size: 15px !important;
-    font-weight: 600 !important;
+    font-weight: 800 !important;
     color: black;
+    font-family: 'Nunito', sans-serif;
+
 }
 
 .itemButton button {
@@ -68,4 +70,11 @@
 
 .ratingBox .ratingCount {
     margin-left: 5px;
+    font-family: 'Nunito', sans-serif;
+
+}
+
+.itemTitle {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
 }

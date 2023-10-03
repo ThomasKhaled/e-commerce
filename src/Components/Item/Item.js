@@ -42,7 +42,7 @@ const Item = ({
       />
       <CardContent className={styles.itemText} onClick={onClick}>
         <Typography
-          className={styles.itemtitle}
+          className={styles.itemTitle}
           gutterBottom
           variant="body2"
           component="p"

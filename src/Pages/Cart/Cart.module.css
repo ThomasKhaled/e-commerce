@@ -33,11 +33,18 @@
 
 .alertItemAdded {
     position: fixed;
-    top: 70px;
-    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 0px;
+    right: 0;
+    width: 180px;
+    height: 70px;
     z-index: 12;
     transition: .5s;
-    animation: alertDissappear 4s forwards;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    animation: alertDissappear 4s forwards ease-in;
 }
 
 @keyframes alertDissappear {

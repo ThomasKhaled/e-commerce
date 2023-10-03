@@ -81,7 +81,11 @@ const MainPage = () => {
         <CarouselMain />
       </div>
       {isCartUpdated && (
-        <Alert className={styles.alertItemAdded} severity="success">
+        <Alert
+          className={styles.alertItemAdded}
+          variant="filled"
+          severity="success"
+        >
           Item added to cart!
         </Alert>
       )}

@@ -13,9 +13,12 @@ import { useSelector } from "react-redux/es/hooks/useSelector";
 import { mergedSchemas } from "./validationSchemas";
 import { validationSchemas } from "./validationSchemas";
 import { useNavigate } from "react-router-dom";
+import Alert from "@mui/material/Alert";
 
 const SignIn = () => {
   const [signStatus, setSignStatus] = useState("sign_in");
+  const [pressedSignIn, setPressedSignIn] = useState(false);
+  const [isStateNull, setIsStateNull] = useState(true);
   const state = useSelector((state) => state.auth.user);
   const navigate = useNavigate(); // Create a history obj
 
@@ -23,7 +26,7 @@ const SignIn = () => {
     setSignStatus(newStatus);
   };
 
-  const textFieldColor = {
+  const mainStyle = {
     color: "white",
     fontSize: "1.1rem",
     borderColor: "white",
@@ -59,8 +62,9 @@ const SignIn = () => {
             }}
             validationSchema={merged_Schemas}
             onSubmit={(values) => {
+              setPressedSignIn(true);
               if (state === null) {
-                alert("Register first!");
+                setIsStateNull(true);
               } else {
                 if (
                   values.email === state.email &&
@@ -68,12 +72,12 @@ const SignIn = () => {
                 ) {
                   navigate("/main");
                 } else {
-                  alert("Check your email or password!");
+                  setIsStateNull(false);
                 }
               }
             }}
           >
-            {(props) => (
+            {({ touched, errors }) => (
               <Form>
                 <Grid
                   container
@@ -89,10 +93,10 @@ const SignIn = () => {
                       onChange={handleSignChange}
                       aria-label="Platform"
                     >
-                      <ToggleButton value="sign_in" style={textFieldColor}>
+                      <ToggleButton value="sign_in" style={mainStyle}>
                         Sign In
                       </ToggleButton>
-                      <ToggleButton value="sign_up" style={textFieldColor}>
+                      <ToggleButton value="sign_up" style={mainStyle}>
                         Sign Up
                       </ToggleButton>
                     </ToggleButtonGroup>
@@ -103,11 +107,7 @@ const SignIn = () => {
                     <AccountCircleIcon color="primary" fontSize="large" />
                   </Grid>
                   <Grid item>
-                    <Typography
-                      variant="h6"
-                      color="initial"
-                      style={textFieldColor}
-                    >
+                    <Typography variant="h6" color="initial" style={mainStyle}>
                       Sign In
                     </Typography>
                   </Grid>
@@ -116,7 +116,7 @@ const SignIn = () => {
                       variant="body2"
                       color="initial"
                       marginBottom={2}
-                      style={textFieldColor}
+                      style={mainStyle}
                     >
                       Please fill in your credentials!
                     </Typography>
@@ -131,10 +131,12 @@ const SignIn = () => {
                   placeholder="Email"
                   fullWidth
                   variant="filled"
+                  error={touched.email && Boolean(errors.email)}
+                  helperText={touched.email && errors.email}
                   color="info"
                   focused
                   InputProps={{
-                    style: textFieldColor, // Apply the custom styles to the input element
+                    style: mainStyle, // Apply the custom styles to the input element
                   }}
                 />
                 <Field
@@ -146,11 +148,13 @@ const SignIn = () => {
                   placeholder="Password"
                   fullWidth
                   variant="filled"
+                  error={touched.password && Boolean(errors.password)}
+                  helperText={touched.password && errors.password}
                   color="info"
                   focused
                   margin="normal"
                   InputProps={{
-                    style: textFieldColor, // Apply the custom styles to the input element
+                    style: mainStyle, // Apply the custom styles to the input element
                   }}
                 />
                 <Button
@@ -160,6 +164,15 @@ const SignIn = () => {
                 >
                   Sign In
                 </Button>
+                {pressedSignIn && !isStateNull && (
+                  <Alert
+                    variant="filled"
+                    severity="error"
+                    className={styles.errorAlert}
+                  >
+                    You must fill all the fields!
+                  </Alert>
+                )}
               </Form>
             )}
           </Formik>

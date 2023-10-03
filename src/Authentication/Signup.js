@@ -19,14 +19,16 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { validationSchemas } from "./validationSchemas";
 import { useDispatch } from "react-redux/";
 import { signUp } from "../Redux/Authentication/authenticationSlice";
-import mainAuthenticationStyle from "./mainAuthenticationStyle";
 import { mergedSchemas } from "./validationSchemas";
+import Alert from "@mui/material/Alert";
 
 const Signup = () => {
   const dispatch = useDispatch();
   const [gender, setGender] = useState("male");
   const [signStatus, setSignStatus] = useState("sign_up");
   const [acceptTerms, setAcceptTerms] = useState(false);
+  const [isFieldEmpty, setIsFieldEmpty] = useState(true);
+  const [pressedSignUp, setPressedSignUp] = useState(false);
 
   const handleSignChange = (event, newStatus) => {
     setSignStatus(newStatus);
@@ -36,7 +38,11 @@ const Signup = () => {
     setGender(event.target.value);
   };
 
-  const mainStyle = mainAuthenticationStyle().inputContainer;
+  const mainStyle = {
+    color: "white",
+    fontSize: "1.1rem",
+    borderColor: "white",
+  };
 
   const handleSignup = (user) => {
     dispatch(signUp(user));
@@ -86,7 +92,6 @@ const Signup = () => {
               confirmPassword: "",
             }}
             validationSchema={merged_Schemas}
-            onSubmit={(values) => {}}
           >
             {({ errors, touched, values }) => (
               <Form>
@@ -269,9 +274,10 @@ const Signup = () => {
                 <Button
                   type="submit"
                   variant="contained"
-                  sx={{ marginTop: 2, marginBottom: 2 }}
+                  sx={{ marginTop: 2, marginBottom: 8 }}
                   style={mainStyle}
                   onClick={() => {
+                    setPressedSignUp(true);
                     if (acceptTerms) {
                       const user = {
                         userName: values.userName,
@@ -280,14 +286,34 @@ const Signup = () => {
                         phoneNumber: values.phoneNumber,
                         password: values.password,
                       };
-                      handleSignup(user);
+                      if (
+                        user.userName &&
+                        user.email &&
+                        user.phoneNumber &&
+                        user.password
+                      ) {
+                        handleSignup(user);
+                        setIsFieldEmpty(false);
+                      } else {
+                        setIsFieldEmpty(true);
+                      }
                     } else {
-                      throw new Error("error!");
+                      setAcceptTerms(false);
                     }
                   }}
                 >
                   Sign Up
                 </Button>
+                {pressedSignUp && (isFieldEmpty || !acceptTerms) && (
+                  <Alert
+                    variant="filled"
+                    severity="error"
+                    className={styles.errorAlert}
+                  >
+                    You must fill all the fields and accept the terms and
+                    conditions!
+                  </Alert>
+                )}
               </Form>
             )}
           </Formik>

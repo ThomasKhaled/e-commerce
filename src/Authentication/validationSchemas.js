@@ -15,7 +15,7 @@ const createValidationSchema = (
 export const validationSchemas = {
   userName: createValidationSchema(
     "userName",
-    (value) => value.trim() !== "",
+    (value) => typeof value === "string" && value.trim() !== "",
     "Username is required"
   ),
   phoneNumber: createValidationSchema(
