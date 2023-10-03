@@ -7,6 +7,7 @@ import styles from "./CategoryCard.module.css";
 import useAPI from "../../hooks/useAPI";
 import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
+import { LightTooltip } from "../../MUI/LightTooltip";
 
 const baseURL = "https://fakestoreapi.com/products/category/";
 
@@ -64,10 +65,16 @@ const CategoryCard = ({ categoryUrl, categoryTitle }) => {
           </Typography>
         </Grid>
         <Grid item>
-          <Typography className={styles.catViewAll} variant="body1" color="div">
-            <span className={styles.viewAllText}>View All </span>
-            <span className={styles.viewAllArrow}>&gt;</span>
-          </Typography>
+          <LightTooltip title={`Browse ${categoryTitle}`}>
+            <Typography
+              className={styles.catViewAll}
+              variant="body1"
+              color="div"
+            >
+              <span className={styles.viewAllText}>View All </span>
+              <span className={styles.viewAllArrow}>&gt;</span>
+            </Typography>
+          </LightTooltip>
         </Grid>
       </Grid>
       <Grid container spacing={4} sm={8} justifyContent={"center"}>

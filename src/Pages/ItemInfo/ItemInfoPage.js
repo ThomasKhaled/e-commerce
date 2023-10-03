@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../Redux/Cart/cartSlice";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import Alert from "@mui/material/Alert";
+import { LightTooltip } from "../../MUI/LightTooltip";
 
 const ItemInfoPage = () => {
   const dispatch = useDispatch();
@@ -68,11 +69,13 @@ const ItemInfoPage = () => {
       )}
       <Container className={styles.infoContainer}>
         <Grid container spacing={4}>
-          <Grid item xs={12} md={6} lg={6} style={{ marginRight: "1rem" }}>
-            <Paper elevation={1} className={styles.productImgContainer}>
-              <img src={img} alt={title} className={styles.productImg} />
-            </Paper>
-          </Grid>
+          <LightTooltip title={title}>
+            <Grid item xs={12} md={6} lg={6} style={{ marginRight: "1rem" }}>
+              <Paper elevation={1} className={styles.productImgContainer}>
+                <img src={img} alt={title} className={styles.productImg} />
+              </Paper>
+            </Grid>
+          </LightTooltip>
           <Grid item xs={12} md={4} lg={4}>
             <Grid container>
               <Grid item xs={12}>
@@ -140,28 +143,32 @@ const ItemInfoPage = () => {
                 </Grid>
               </Grid>
               <Grid container spacing={2} sx={{ pt: 3 }}>
-                <Grid item>
-                  <Box className={styles.ratingBox}>
-                    <Rating
-                      name="read-only"
-                      value={rate}
-                      precision={0.1}
-                      readOnly
-                    />
-                    <Typography
-                      className={styles.ratingCount}
-                      variant="body2"
-                    >{`(${count})`}</Typography>
-                  </Box>
-                </Grid>
+                <LightTooltip title={styles.ratingCount}>
+                  <Grid item>
+                    <Box className={styles.ratingBox}>
+                      <Rating
+                        name="read-only"
+                        value={rate}
+                        precision={0.1}
+                        readOnly
+                      />
+                      <Typography
+                        className={styles.ratingCount}
+                        variant="body2"
+                      >{`(${count})`}</Typography>
+                    </Box>
+                  </Grid>
+                </LightTooltip>
               </Grid>
-              <Button
-                variant="contained"
-                sx={{ mt: 5, width: "100%" }}
-                onClick={handleAddToCart}
-              >
-                add to cart
-              </Button>
+              <LightTooltip title="Add To Cart">
+                <Button
+                  variant="contained"
+                  sx={{ mt: 5, width: "100%" }}
+                  onClick={handleAddToCart}
+                >
+                  add to cart
+                </Button>
+              </LightTooltip>
             </Grid>
           </Grid>
         </Grid>

@@ -10,7 +10,7 @@ import Rating from "@mui/material/Rating";
 import Box from "@mui/material/Box";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../Redux/Cart/cartSlice";
-
+import { LightTooltip } from "../../MUI/LightTooltip";
 const Item = ({
   id,
   urlImg,
@@ -66,9 +66,11 @@ const Item = ({
         </Box>
       </CardContent>
       <CardActions className={styles.itemButton}>
-        <Button type="button" onClick={handleAddToCart}>
-          Add to cart
-        </Button>
+        <LightTooltip title={"Add To Cart"}>
+          <Button type="button" onClick={handleAddToCart}>
+            Add to cart
+          </Button>
+        </LightTooltip>
       </CardActions>
     </Card>
   );

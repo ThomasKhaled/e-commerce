@@ -10,6 +10,7 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import NativeSelect from "@mui/material/NativeSelect";
 import Box from "@mui/material/Box";
+import { LightTooltip } from "../../MUI/LightTooltip";
 
 const CartItem = ({ id, img, title, price, quantity }) => {
   const cartState = useSelector((state) => state.cart.cart);
@@ -94,15 +95,17 @@ const CartItem = ({ id, img, title, price, quantity }) => {
             </Box>
           </Grid>
           <Grid item>
-            <Typography variant="body2" color="var(--mainColor)">
-              <Link
-                variant="text"
-                className={styles.deleteItem}
-                onClick={handleDeleteItemFromCart}
-              >
-                Delete
-              </Link>
-            </Typography>
+            <LightTooltip title="Remove one only" placement="right">
+              <Typography variant="body2" color="var(--mainColor)">
+                <Link
+                  variant="text"
+                  className={styles.deleteItem}
+                  onClick={handleDeleteItemFromCart}
+                >
+                  Delete
+                </Link>
+              </Typography>
+            </LightTooltip>
           </Grid>
         </Grid>
       </Grid>

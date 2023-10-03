@@ -11,6 +11,7 @@ import Divider from "@mui/material/Divider";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import { clearCart } from "../../Redux/Cart/cartSlice";
 import Alert from "@mui/material/Alert";
+import { LightTooltip } from "../../MUI/LightTooltip";
 
 const Cart = () => {
   const cartState = useSelector((state) => state.cart.cart);
@@ -76,23 +77,25 @@ const Cart = () => {
           >
             Shopping Cart
           </Typography>
-          <Grid
-            className={styles.clearCart}
-            item
-            sx={{ display: "flex" }}
-            onClick={handleClearCart}
-            marginBottom={1}
-          >
-            <Typography
-              variant="body2"
-              color="initial"
-              marginRight={1}
+          <LightTooltip title="Empty the cart!" placement="bottom-start">
+            <Grid
               className={styles.clearCart}
+              item
+              sx={{ display: "flex" }}
+              onClick={handleClearCart}
+              marginBottom={1}
             >
-              Clear Cart ({cartState.length})
-            </Typography>
-            <RemoveShoppingCartIcon />
-          </Grid>
+              <Typography
+                variant="body2"
+                color="initial"
+                marginRight={1}
+                className={styles.clearCart}
+              >
+                Clear Cart ({cartState.length})
+              </Typography>
+              <RemoveShoppingCartIcon />
+            </Grid>
+          </LightTooltip>
           <Divider />
         </Grid>
         <Grid item className={styles.cartGrid}>

@@ -77,10 +77,10 @@ const Signup = () => {
         <Grid
           item
           className={styles.formContainer}
-          xs={10}
-          sm={6}
+          xs={11}
+          sm={8}
           md={8}
-          lg={4}
+          lg={6}
           padding={4}
         >
           <Formik
@@ -236,7 +236,7 @@ const Signup = () => {
                   color="info"
                   focused
                   InputProps={{
-                    style: mainStyle, // Apply the custom styles to the input element
+                    style: mainStyle,
                   }}
                 />
                 <Field

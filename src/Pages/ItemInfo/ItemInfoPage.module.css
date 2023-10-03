@@ -72,6 +72,10 @@
     text-align: center;
 }
 
+.COD {
+    cursor: pointer;
+}
+
 .footer {
     background-color: black;
     display: flex;
@@ -79,5 +83,4 @@
     align-items: center;
     margin-top: 15px;
     padding: 7px;
-
 }

@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../Redux/Authentication/authenticationSlice";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { LightTooltip } from "./LightTooltip";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -89,6 +90,9 @@ export default function PrimarySearchAppBar() {
   const handleGoToCart = () => {
     navigate("/cart");
   };
+  const handleGoToProfile = () => {
+    navigate("/profile");
+  };
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -145,55 +149,71 @@ export default function PrimarySearchAppBar() {
             aria-label="open drawer"
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
+            <LightTooltip title="Menu">
+              <MenuIcon />
+            </LightTooltip>
           </IconButton>
-          <Typography
-            variant="h4"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
-            color={mainColor}
-            fontWeight={"bold"}
-          >
-            MegaMart
-          </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search essentials, groceries and more..."
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
+          <LightTooltip title="Title">
+            <Typography
+              variant="h4"
+              noWrap
+              component="div"
+              sx={{ display: { xs: "none", sm: "block" } }}
+              color={mainColor}
+              fontWeight={"bold"}
+            >
+              MegaMart
+            </Typography>
+          </LightTooltip>
           <Box sx={{ flexGrow: 1 }} />
+          <LightTooltip title="Search">
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search essentials, groceries and more..."
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
+          </LightTooltip>
+          <Box sx={{ flexGrow: 1 }} />
+
           <Box
             sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center" }}
           >
-            <Typography
-              variant="body1"
-              fontSize={15}
-              sx={{ marginRight: 1, marginLeft: 1 }}
-              color={mainColor}
-            >
-              Hello, {username}
-            </Typography>
-            <IconButton size="large" color="inherit" onClick={handleGoToCart}>
-              <Badge badgeContent={cartState.length} color="error">
-                <ShoppingCartIcon />
-              </Badge>
-            </IconButton>
+            <LightTooltip title="Profile">
+              <Typography
+                variant="body1"
+                fontSize={15}
+                sx={{ marginRight: 1, marginLeft: 1, cursor: "pointer" }}
+                color={mainColor}
+                onClick={handleGoToProfile}
+              >
+                Hello, {username}
+              </Typography>
+            </LightTooltip>
+            <LightTooltip title="Cart">
+              <IconButton size="large" color="inherit" onClick={handleGoToCart}>
+                <Badge badgeContent={cartState.length} color="error">
+                  <ShoppingCartIcon />
+                </Badge>
+              </IconButton>
+            </LightTooltip>
           </Box>
+
           <Box sx={{ display: { xs: "none", lg: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="log out"
-              aria-haspopup="true"
-              onClick={handleLogout}
-              color="inherit"
-            >
-              <LogoutIcon />
-            </IconButton>
+            <LightTooltip title="Logout">
+              <IconButton
+                size="large"
+                aria-label="log out"
+                aria-haspopup="true"
+                onClick={handleLogout}
+                color="inherit"
+              >
+                <LogoutIcon />
+              </IconButton>
+            </LightTooltip>
           </Box>
           <Box sx={{ display: { xs: "flex", lg: "none" } }}>
             <IconButton
