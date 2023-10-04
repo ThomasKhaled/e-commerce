@@ -1,6 +1,15 @@
 .pageContainer {
     height: 100vh;
     position: relative;
+
+}
+
+.backgroundContainer {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    z-index: -2;
 }
 
 .background {
@@ -10,7 +19,7 @@
     z-index: -1;
     background: url('../assets/images/authenticationBG.jpg') center center no-repeat;
     background-size: cover;
-    filter: blur(3px);
+    filter: blur(5px) opacity(.6);
 }
 
 .gridContainer {

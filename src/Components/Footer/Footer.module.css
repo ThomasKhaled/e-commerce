@@ -1,0 +1,21 @@
+.footerContainer {
+    margin-top: 15px;
+    width: 100%;
+}
+
+.footer {
+    height: auto;
+    width: 100%;
+    background-color: rgb(26, 25, 25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 7px;
+}
+
+.copyRights {
+    background-color: black;
+    color: var(--mainColor);
+    height: 30px;
+    line-height: 30px;
+}

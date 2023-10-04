@@ -75,12 +75,3 @@
 .COD {
     cursor: pointer;
 }
-
-.footer {
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 15px;
-    padding: 7px;
-}

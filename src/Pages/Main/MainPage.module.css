@@ -10,16 +10,6 @@
     width: 100%;
 }
 
-.footer {
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 3%;
-    margin-top: 35px;
-}
-
 .alertItemAdded {
     position: fixed;
     display: flex;

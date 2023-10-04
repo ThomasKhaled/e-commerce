@@ -62,11 +62,13 @@ const Signup = () => {
     passwordSchema,
     confirmPasswordSchema
   );
+  const customRadioColor = "#5bb6de"; // Replace with your desired color
 
   return signStatus === "sign_in" ? (
     <SignIn />
   ) : (
     <div className={styles.pageContainer}>
+      <div className={styles.backgroundContainer}> </div>
       <div className={styles.background}></div>
       <Grid
         container
@@ -191,12 +193,22 @@ const Signup = () => {
                       <Grid item>
                         <FormControlLabel
                           value="male"
-                          control={<Radio />}
+                          control={
+                            <Radio
+                              color="default"
+                              sx={{ color: customRadioColor }}
+                            />
+                          }
                           label="Male"
                         />
                         <FormControlLabel
                           value="female"
-                          control={<Radio />}
+                          control={
+                            <Radio
+                              color="default"
+                              sx={{ color: customRadioColor }}
+                            />
+                          }
                           label="Female"
                         />
                       </Grid>
@@ -265,6 +277,8 @@ const Signup = () => {
                       <Checkbox
                         checked={acceptTerms}
                         onChange={(e) => setAcceptTerms(e.target.checked)}
+                        color="default"
+                        sx={{ color: customRadioColor }}
                       />
                     }
                     label="I accept the terms and conditions."

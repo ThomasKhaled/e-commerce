@@ -39,6 +39,7 @@ const SignIn = () => {
     <Signup />
   ) : (
     <div className={styles.pageContainer}>
+      <div className={styles.backgroundContainer}> </div>
       <div className={styles.background}></div>
       <Grid
         container
