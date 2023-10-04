@@ -5,15 +5,23 @@ import styles from "./Footer.module.css";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import ResponsivePopup from "../../MUI/ResponsivePopup";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
   const [openTermsAndConditions, setOpenTermsAndConditions] = useState(false);
+  const navigate = useNavigate();
   const handlePopup = () => {
     setOpenTermsAndConditions(true);
   };
   const handleOnClose = () => {
     setOpenTermsAndConditions(false);
   };
+
+  const handleAboutUs = () => {
+    navigate("/about_us");
+  };
+
+  const mainTextColor = "antiquewhite";
   return (
     <Box className={`${styles.footerContainer}`}>
       <Grid
@@ -34,12 +42,17 @@ const Footer = () => {
           </Grid>
           <Grid container direction={"column"} alignContent={"center"}>
             <Grid item>
-              <Typography variant="body2" color="antiquewhite">
+              <Typography
+                variant="body2"
+                color={mainTextColor}
+                onClick={handleAboutUs}
+                sx={{ cursor: "pointer" }}
+              >
                 About us
               </Typography>
             </Grid>
             <Grid item>
-              <Typography variant="body2" color="antiquewhite">
+              <Typography variant="body2" color={mainTextColor}>
                 About out products
               </Typography>
             </Grid>
@@ -58,14 +71,14 @@ const Footer = () => {
           </Grid>
           <Grid container direction={"column"} alignContent={"center"}>
             <Grid item>
-              <Typography variant="body2" color="antiquewhite">
+              <Typography variant="body2" color={mainTextColor}>
                 Privacy and policy
               </Typography>
             </Grid>
             <Grid item>
               <Typography
                 variant="body2"
-                color="antiquewhite"
+                color={mainTextColor}
                 onClick={handlePopup}
                 sx={{ cursor: "pointer" }}
               >
@@ -88,13 +101,13 @@ const Footer = () => {
           <Grid container direction={"column"}>
             <Grid item container direction={"row"} justifyContent={"center"}>
               <LocationOnOutlinedIcon />
-              <Typography variant="body2" color="antiquewhite" ml={1}>
+              <Typography variant="body2" color={mainTextColor} ml={1}>
                 Block 257, Road 5720, <br /> Building 2678, Shop 0
               </Typography>
             </Grid>
             <Grid item container direction={"row"} justifyContent={"center"}>
               <EmailOutlinedIcon />
-              <Typography variant="body2" color="antiquewhite" ml={1}>
+              <Typography variant="body2" color={mainTextColor} ml={1}>
                 thomaskhaled01@gmail.com
               </Typography>
             </Grid>

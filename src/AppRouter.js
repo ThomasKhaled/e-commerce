@@ -5,6 +5,7 @@ import Signup from "./Authentication/Signup";
 import MainPage from "./Pages/Main/MainPage";
 import ItemInfoPage from "./Pages/ItemInfo/ItemInfoPage";
 import Cart from "./Pages/Cart/Cart";
+import AboutUs from "./Pages/AboutUs/AboutUs";
 
 const AppRouter = () => {
   return (
@@ -14,6 +15,7 @@ const AppRouter = () => {
         <Route path="/main" element={<MainPage />} />
         <Route path="/item" element={<ItemInfoPage />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/about_us" element={<AboutUs />} />
       </Routes>
     </Router>
   );
