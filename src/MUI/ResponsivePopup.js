@@ -10,7 +10,7 @@ import { useTheme } from "@mui/material/styles";
 import { useEffect } from "react";
 import defaultData from "../utils/defaultData";
 
-export default function ResponsivePopup({ openD, onCloseD, text }) {
+export default function ResponsivePopup({ openD, onCloseD }) {
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
