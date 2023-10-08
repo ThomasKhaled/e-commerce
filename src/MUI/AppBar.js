@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -59,7 +59,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar({ setSearchTerm }) {
   const mainColor = "var(--mainColor)";
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -92,6 +92,10 @@ export default function PrimarySearchAppBar() {
   };
   const handleGoToProfile = () => {
     navigate("/profile");
+  };
+
+  const onSearchBarTextChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
   const mobileMenuId = "primary-search-account-menu-mobile";
@@ -174,6 +178,7 @@ export default function PrimarySearchAppBar() {
               <StyledInputBase
                 placeholder="Search essentials, groceries and more..."
                 inputProps={{ "aria-label": "search" }}
+                onChange={onSearchBarTextChange}
               />
             </Search>
           </LightTooltip>

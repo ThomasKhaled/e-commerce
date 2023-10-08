@@ -11,10 +11,11 @@ import { LightTooltip } from "../../MUI/LightTooltip";
 
 const baseURL = "https://fakestoreapi.com/products/category/";
 
-const CategoryCard = ({ categoryUrl, categoryTitle }) => {
+const CategoryCard = ({ categoryUrl, categoryTitle, searchTerm = "" }) => {
   const navigate = useNavigate();
-  const { posts, isLoading, error } = useAPI({
+  const { posts, isLoading, error, filteredProducts } = useAPI({
     apiURL: `${baseURL}${categoryUrl}`,
+    searchTerm: searchTerm,
   });
 
   if (isLoading) {
@@ -51,34 +52,69 @@ const CategoryCard = ({ categoryUrl, categoryTitle }) => {
   };
   return (
     <Grid container justifyContent={"center"}>
-      <Grid container className={styles.listTitleContainer} sm={8}>
-        <Grid item>
-          <Typography
-            className={styles.listTitleC}
-            variant="h4"
-            color="initial"
-          >
-            <Typography className={styles.listTitle} variant="h4" color="div">
-              <span className={styles.shopFromText}>Shop from</span>{" "}
-              <span className={styles.categoryName}>{categoryTitle}</span>
-            </Typography>
-          </Typography>
-        </Grid>
-        <Grid item>
-          <LightTooltip title={`Browse ${categoryTitle}`}>
-            <Typography
-              className={styles.catViewAll}
-              variant="body1"
-              color="div"
-            >
-              <span className={styles.viewAllText}>View All </span>
-              <span className={styles.viewAllArrow}>&gt;</span>
-            </Typography>
-          </LightTooltip>
-        </Grid>
-      </Grid>
-      <Grid container spacing={4} sm={8} justifyContent={"center"}>
-        {firstFourItems.map((post) => (
+      {!searchTerm && (
+        <>
+          <Grid container className={styles.listTitleContainer} sm={8}>
+            <Grid item>
+              <Typography
+                className={styles.listTitleC}
+                variant="h4"
+                color="initial"
+              >
+                <Typography
+                  className={styles.listTitle}
+                  variant="h4"
+                  color="div"
+                >
+                  <span className={styles.shopFromText}>Shop from</span>{" "}
+                  <span className={styles.categoryName}>{categoryTitle}</span>
+                </Typography>
+              </Typography>
+            </Grid>
+            <Grid item>
+              <LightTooltip title={`Browse ${categoryTitle}`}>
+                <Typography
+                  className={styles.catViewAll}
+                  variant="body1"
+                  color="div"
+                >
+                  <span className={styles.viewAllText}>View All </span>
+                  <span className={styles.viewAllArrow}>&gt;</span>
+                </Typography>
+              </LightTooltip>
+            </Grid>
+          </Grid>
+          <Grid container spacing={4} sm={8} justifyContent={"center"}>
+            {firstFourItems.map((post) => (
+              <Grid item>
+                <Item
+                  key={post.id}
+                  id={post.id}
+                  urlImg={post.image}
+                  title={post.title}
+                  price={post.price}
+                  ratingValue={post.rating.rate}
+                  ratingCount={post.rating.count}
+                  onClick={() =>
+                    handleClickedItem(
+                      post.id,
+                      post.image,
+                      post.title,
+                      post.description,
+                      post.price,
+                      post.rating.rate,
+                      post.rating.count,
+                      post.category
+                    )
+                  }
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </>
+      )}
+      {searchTerm &&
+        filteredProducts.map((post) => (
           <Grid item>
             <Item
               key={post.id}
@@ -103,7 +139,6 @@ const CategoryCard = ({ categoryUrl, categoryTitle }) => {
             />
           </Grid>
         ))}
-      </Grid>
     </Grid>
   );
 };

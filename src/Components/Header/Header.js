@@ -1,10 +1,14 @@
 import React from "react";
 import PrimarySearchAppBar from "../../MUI/AppBar";
 
-const Header = () => {
+const Header = ({ setSearchTerm }) => {
+  const handleSearchTermChange = (searchTerm) => {
+    setSearchTerm(searchTerm);
+  };
+
   return (
     <>
-      <PrimarySearchAppBar />
+      <PrimarySearchAppBar setSearchTerm={handleSearchTermChange} />
     </>
   );
 };
