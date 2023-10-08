@@ -34,7 +34,7 @@ const CartItem = ({ id, img, title, price, quantity }) => {
 
   return (
     <Grid container spacing={5} sx={{ display: "flex", alignItems: "center" }}>
-      <Grid item xs={12} sm={3} md={1} lg={1} className={styles.imgGrid}>
+      <Grid item xs={12} sm={5} md={4} lg={3} className={styles.imgGrid}>
         <img src={img} alt={title} className={styles.cartItemImg} />
       </Grid>
       <Grid
@@ -43,7 +43,7 @@ const CartItem = ({ id, img, title, price, quantity }) => {
         xs={12}
         sm={7}
         md={8}
-        lg={10}
+        lg={9}
         className={styles.cartItemInfo}
       >
         <Grid item>

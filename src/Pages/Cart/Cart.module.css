@@ -58,6 +58,10 @@
 }
 
 @media screen and (max-width: 400px) {
+    .title {
+        font-size: 1.8rem !important;
+    }
+
     .cartGrid {
         padding-left: 0 !important;
     }

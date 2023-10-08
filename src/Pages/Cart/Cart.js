@@ -74,6 +74,7 @@ const Cart = () => {
             color="initial"
             component={"h1"}
             marginBottom={1}
+            className={styles.title}
           >
             Shopping Cart
           </Typography>
@@ -105,7 +106,7 @@ const Cart = () => {
                 <CartItem
                   key={product.id}
                   id={product.id}
-                  img={product.urlImg}
+                  img={product.img}
                   title={product.title}
                   price={product.price}
                   quantity={product.quantity}

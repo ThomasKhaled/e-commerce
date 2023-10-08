@@ -53,7 +53,7 @@ const Footer = () => {
             </Grid>
             <Grid item>
               <Typography variant="body2" color={mainTextColor}>
-                About out products
+                About our products
               </Typography>
             </Grid>
           </Grid>

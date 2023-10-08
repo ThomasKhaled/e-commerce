@@ -1,13 +1,21 @@
 .cartItemImg {
-    height: 100px;
+    height: 150px;
+    width: 150px;
     background-size: cover;
     margin-left: auto;
     margin-right: auto;
 }
 
+.imgGrid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 @media screen and (max-width: 400px) {
     .cartItemImg {
-        height: 50px;
+        height: 70px;
+        width: 70px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -30,6 +38,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: 4rem;
     }
 }
 

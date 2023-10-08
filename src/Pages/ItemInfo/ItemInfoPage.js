@@ -20,6 +20,10 @@ import { addToCart } from "../../Redux/Cart/cartSlice";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import Alert from "@mui/material/Alert";
 import { LightTooltip } from "../../MUI/LightTooltip";
+import { editCartQuantity } from "../../Redux/Cart/cartSlice";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import NativeSelect from "@mui/material/NativeSelect";
 
 const ItemInfoPage = () => {
   const dispatch = useDispatch();
@@ -27,14 +31,17 @@ const ItemInfoPage = () => {
     useLocation().state;
   const [isCartUpdated, setIsCartUpdated] = useState(false);
   const state = useSelector((state) => state.cart.cart);
+  const [qty, setQty] = React.useState(1);
+
   const handleAddToCart = () => {
-    const item = {
+    const itemToAdd = {
       id,
       img,
       title,
       price,
+      quantity: qty,
     };
-    dispatch(addToCart(item));
+    dispatch(addToCart(itemToAdd));
   };
 
   const firstUpdate = useRef(true);
@@ -56,6 +63,15 @@ const ItemInfoPage = () => {
       clearTimeout(timer);
     };
   }, [state]);
+
+  useEffect(() => {
+    setQty(qty);
+  }, [qty]);
+
+  const handleQuantityChange = (event) => {
+    const newQty = parseInt(event.target.value);
+    setQty(newQty);
+  };
 
   return (
     <div className={styles.mainContainer}>
@@ -160,6 +176,33 @@ const ItemInfoPage = () => {
                   </Grid>
                 </LightTooltip>
               </Grid>
+              <LightTooltip title="Select The Quantity" placement="right">
+                <Box sx={{ minWidth: 50, mt: 4 }}>
+                  <FormControl fullWidth>
+                    <InputLabel
+                      variant="standard"
+                      htmlFor="uncontrolled-native"
+                    >
+                      Quantity:
+                    </InputLabel>
+                    <NativeSelect
+                      value={qty}
+                      inputProps={{
+                        name: "qty",
+                        id: "uncontrolled-native",
+                      }}
+                      onChange={handleQuantityChange}
+                    >
+                      <option value={1}>1</option>
+                      <option value={2}>2</option>
+                      <option value={3}>3</option>
+                      <option value={4}>4</option>
+                      <option value={5}>5</option>
+                      <option value={6}>6</option>
+                    </NativeSelect>
+                  </FormControl>
+                </Box>
+              </LightTooltip>
               <LightTooltip title="Add To Cart">
                 <Button
                   variant="contained"
