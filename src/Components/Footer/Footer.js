@@ -69,13 +69,19 @@ const Footer = () => {
               Customer Service
             </Typography>
           </Grid>
-          <Grid container direction={"column"} alignContent={"center"}>
-            <Grid item>
+          <Grid container direction={"row"} justifyContent={"center"}>
+            <Grid item sx={{ mr: 1 }}>
               <Typography variant="body2" color={mainTextColor}>
                 Privacy and policy
               </Typography>
             </Grid>
             <Grid item>
+              <Typography variant="body2" color={mainTextColor}>
+                &#8226;
+              </Typography>
+            </Grid>
+
+            <Grid item sx={{ ml: 1 }}>
               <Typography
                 variant="body2"
                 color={mainTextColor}
@@ -100,15 +106,15 @@ const Footer = () => {
           </Grid>
           <Grid container direction={"column"}>
             <Grid item container direction={"row"} justifyContent={"center"}>
-              <LocationOnOutlinedIcon />
-              <Typography variant="body2" color={mainTextColor} ml={1}>
-                Block 257, Road 5720, <br /> Building 2678, Shop 0
-              </Typography>
-            </Grid>
-            <Grid item container direction={"row"} justifyContent={"center"}>
               <EmailOutlinedIcon />
               <Typography variant="body2" color={mainTextColor} ml={1}>
                 thomaskhaled01@gmail.com
+              </Typography>
+            </Grid>
+            <Grid item container direction={"row"} justifyContent={"center"}>
+              <LocationOnOutlinedIcon />
+              <Typography variant="body2" color={mainTextColor} ml={1}>
+                Block 257, Road 5720, <br /> Building 2678, Shop 0
               </Typography>
             </Grid>
           </Grid>

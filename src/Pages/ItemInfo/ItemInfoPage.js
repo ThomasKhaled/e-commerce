@@ -18,12 +18,16 @@ import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../Redux/Cart/cartSlice";
 import { useSelector } from "react-redux/es/hooks/useSelector";
+import {
+  addToFavorite,
+  removeFromFavorite,
+} from "../../Redux/Authentication/authenticationSlice";
 import Alert from "@mui/material/Alert";
 import { LightTooltip } from "../../MUI/LightTooltip";
-import { editCartQuantity } from "../../Redux/Cart/cartSlice";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import NativeSelect from "@mui/material/NativeSelect";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const ItemInfoPage = () => {
   const dispatch = useDispatch();
@@ -31,6 +35,8 @@ const ItemInfoPage = () => {
     useLocation().state;
   const [isCartUpdated, setIsCartUpdated] = useState(false);
   const state = useSelector((state) => state.cart.cart);
+  const favProductsState = useSelector((state) => state.auth.favoriteProducts);
+  const isItemFavorited = favProductsState.find((item) => item.id === id);
   const [qty, setQty] = React.useState(1);
 
   const handleAddToCart = () => {
@@ -42,6 +48,20 @@ const ItemInfoPage = () => {
       quantity: qty,
     };
     dispatch(addToCart(itemToAdd));
+  };
+
+  const handleAddToFavorite = () => {
+    if (!isItemFavorited) {
+      const item = {
+        id,
+        img,
+        title,
+        price,
+      };
+      dispatch(addToFavorite(item));
+    } else {
+      dispatch(removeFromFavorite(id));
+    }
   };
 
   const firstUpdate = useRef(true);
@@ -107,15 +127,32 @@ const ItemInfoPage = () => {
                 />
               </Grid>
               <Grid item className={styles.productPrice}>
-                <Typography variant="h5" color="initial">
-                  <span
-                    className={styles.dollarSign}
-                    style={{ marginRight: 3 }}
-                  >
-                    <sup>$</sup>
-                  </span>
-                  <span className={styles.productPrice}>{price}</span>
-                </Typography>
+                <Grid
+                  container
+                  direction={"row"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                >
+                  <Grid item>
+                    <Typography variant="h5" color="initial">
+                      <span
+                        className={styles.dollarSign}
+                        style={{ marginRight: 3 }}
+                      >
+                        <sup>$</sup>
+                      </span>
+                      <span className={styles.productPrice}>{price}</span>
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <FavoriteBorderIcon
+                      className={`${styles.favorite} ${
+                        isItemFavorited && styles.favorited
+                      }`}
+                      onClick={handleAddToFavorite}
+                    />
+                  </Grid>
+                </Grid>
                 <Typography variant="body1" color="initial">
                   FREE Returns <br />
                   <Typography
@@ -176,33 +213,37 @@ const ItemInfoPage = () => {
                   </Grid>
                 </LightTooltip>
               </Grid>
-              <LightTooltip title="Select The Quantity" placement="right">
-                <Box sx={{ minWidth: 50, mt: 4 }}>
-                  <FormControl fullWidth>
-                    <InputLabel
-                      variant="standard"
-                      htmlFor="uncontrolled-native"
-                    >
-                      Quantity:
-                    </InputLabel>
-                    <NativeSelect
-                      value={qty}
-                      inputProps={{
-                        name: "qty",
-                        id: "uncontrolled-native",
-                      }}
-                      onChange={handleQuantityChange}
-                    >
-                      <option value={1}>1</option>
-                      <option value={2}>2</option>
-                      <option value={3}>3</option>
-                      <option value={4}>4</option>
-                      <option value={5}>5</option>
-                      <option value={6}>6</option>
-                    </NativeSelect>
-                  </FormControl>
-                </Box>
-              </LightTooltip>
+              <Grid container className={styles.quantity_fav}>
+                <Grid item>
+                  <LightTooltip title="Select The Quantity" placement="right">
+                    <Box sx={{ minWidth: 50, mt: 4 }}>
+                      <FormControl fullWidth>
+                        <InputLabel
+                          variant="standard"
+                          htmlFor="uncontrolled-native"
+                        >
+                          Quantity:
+                        </InputLabel>
+                        <NativeSelect
+                          value={qty}
+                          inputProps={{
+                            name: "qty",
+                            id: "uncontrolled-native",
+                          }}
+                          onChange={handleQuantityChange}
+                        >
+                          <option value={1}>1</option>
+                          <option value={2}>2</option>
+                          <option value={3}>3</option>
+                          <option value={4}>4</option>
+                          <option value={5}>5</option>
+                          <option value={6}>6</option>
+                        </NativeSelect>
+                      </FormControl>
+                    </Box>
+                  </LightTooltip>
+                </Grid>
+              </Grid>
               <LightTooltip title="Add To Cart">
                 <Button
                   variant="contained"

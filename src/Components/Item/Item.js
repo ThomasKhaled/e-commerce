@@ -36,6 +36,7 @@ const Item = ({
       urlImg,
       title,
       price,
+      quantity: 1,
     };
     dispatch(addToCart(item));
   };
@@ -66,12 +67,14 @@ const Item = ({
           sx={{ padding: "1em 1em 0 1em" }}
           onClick={onClick}
         />
-        <FavoriteBorderIcon
-          className={`${styles.favorite} ${
-            isItemFavorited && styles.favorited
-          }`}
-          onClick={handleAddToFavorite}
-        />
+        <LightTooltip title="Add to favorite" placement="top">
+          <FavoriteBorderIcon
+            className={`${styles.favorite} ${
+              isItemFavorited && styles.favorited
+            }`}
+            onClick={handleAddToFavorite}
+          />
+        </LightTooltip>
       </div>
       <CardContent className={styles.itemText} onClick={onClick}>
         <Typography

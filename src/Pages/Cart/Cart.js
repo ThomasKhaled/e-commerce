@@ -106,7 +106,7 @@ const Cart = () => {
                 <CartItem
                   key={product.id}
                   id={product.id}
-                  img={product.img}
+                  img={product.urlImg}
                   title={product.title}
                   price={product.price}
                   quantity={product.quantity}

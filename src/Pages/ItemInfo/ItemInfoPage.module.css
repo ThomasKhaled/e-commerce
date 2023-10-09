@@ -75,3 +75,15 @@
 .COD {
     cursor: pointer;
 }
+
+.favorite {
+    cursor: pointer;
+}
+
+.favorite:hover {
+    color: red;
+}
+
+.favorited {
+    color: red;
+}
