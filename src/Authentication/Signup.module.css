@@ -29,8 +29,29 @@
 .formContainer {
     background-color: var(--formColor);
     border-radius: 12px;
+    border-color: aqua !important;
     padding: 40px !important;
     position: relative;
+}
+
+.formContainer input {
+    background-color: rgba(63, 63, 63, 0.685);
+    color: white;
+}
+
+.formContainer input:focus {
+    border-color: aqua !important;
+    border-width: 5px !important;
+    outline: none;
+}
+
+.formContainer input::placeholder {
+    color: white;
+    opacity: 1;
+}
+
+.formContainer label {
+    color: var(--mainColor);
 }
 
 .errorAlert {

@@ -148,7 +148,6 @@ const Signup = () => {
                   placeholder="Username"
                   variant="filled"
                   color="info"
-                  focused
                   fullWidth
                   margin="normal"
                   error={touched.userName && Boolean(errors.userName)}
@@ -170,7 +169,6 @@ const Signup = () => {
                   fullWidth
                   variant="filled"
                   color="info"
-                  focused
                   InputProps={{
                     style: mainStyle, // Apply the custom styles to the input element
                   }}
@@ -228,7 +226,6 @@ const Signup = () => {
                   helperText={touched.phoneNumber && errors.phoneNumber}
                   variant="filled"
                   color="info"
-                  focused
                   InputProps={{
                     style: mainStyle, // Apply the custom styles to the input element
                   }}
@@ -246,7 +243,6 @@ const Signup = () => {
                   helperText={touched.password && errors.password}
                   variant="filled"
                   color="info"
-                  focused
                   InputProps={{
                     style: mainStyle,
                   }}
@@ -266,7 +262,6 @@ const Signup = () => {
                   helperText={touched.confirmPassword && errors.confirmPassword}
                   variant="filled"
                   color="primary"
-                  focused
                   InputProps={{
                     style: mainStyle, // Apply the custom styles to the input element
                   }}

@@ -9,10 +9,11 @@ import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 import { LightTooltip } from "../../MUI/LightTooltip";
 
-const baseURL = "https://fakestoreapi.com/products/category/";
+const baseURL = "https://fakestoreapi.com/products/";
 
 const CategoryCard = ({ categoryUrl, categoryTitle, searchTerm = "" }) => {
   const navigate = useNavigate();
+  console.log(`${baseURL}${categoryUrl}`);
   const { posts, isLoading, error, filteredProducts } = useAPI({
     apiURL: `${baseURL}${categoryUrl}`,
     searchTerm: searchTerm,
@@ -84,7 +85,13 @@ const CategoryCard = ({ categoryUrl, categoryTitle, searchTerm = "" }) => {
               </LightTooltip>
             </Grid>
           </Grid>
-          <Grid container spacing={4} sm={8} justifyContent={"center"}>
+          <Grid
+            className={styles.itemContainer}
+            container
+            spacing={4}
+            sm={8}
+            justifyContent={"center"}
+          >
             {firstFourItems.map((post) => (
               <Grid item>
                 <Item
@@ -115,28 +122,40 @@ const CategoryCard = ({ categoryUrl, categoryTitle, searchTerm = "" }) => {
       )}
       {searchTerm &&
         filteredProducts.map((post) => (
-          <Grid item>
-            <Item
-              key={post.id}
-              id={post.id}
-              urlImg={post.image}
-              title={post.title}
-              price={post.price}
-              ratingValue={post.rating.rate}
-              ratingCount={post.rating.count}
-              onClick={() =>
-                handleClickedItem(
-                  post.id,
-                  post.image,
-                  post.title,
-                  post.description,
-                  post.price,
-                  post.rating.rate,
-                  post.rating.count,
-                  post.category
-                )
-              }
-            />
+          <Grid
+            container
+            spacing={4}
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            xl={2}
+            justifyContent={"center"}
+            sx={{ mb: 5, mr: 3 }}
+          >
+            <Grid item>
+              <Item
+                key={post.id}
+                id={post.id}
+                urlImg={post.image}
+                title={post.title}
+                price={post.price}
+                ratingValue={post.rating.rate}
+                ratingCount={post.rating.count}
+                onClick={() =>
+                  handleClickedItem(
+                    post.id,
+                    post.image,
+                    post.title,
+                    post.description,
+                    post.price,
+                    post.rating.rate,
+                    post.rating.count,
+                    post.category
+                  )
+                }
+              />
+            </Grid>
           </Grid>
         ))}
     </Grid>

@@ -94,34 +94,42 @@ const MainPage = () => {
           Item added to cart!
         </Alert>
       )}
-      <div className={`${styles.justifyContent} ${styles.mt_5}`}>
-        <CategoryCard
-          categoryUrl={"men's%20clothing"}
-          categoryTitle={"men's clothing"}
-          searchTerm={searchTerm.toLowerCase()}
-        />
-      </div>
-      <div className={`${styles.justifyContent} ${styles.mt_5}`}>
-        <CategoryCard
-          categoryUrl={"women's%20clothing"}
-          categoryTitle={"women's clothing"}
-          searchTerm={searchTerm.toLowerCase()}
-        />
-      </div>
-      <div className={`${styles.justifyContent} ${styles.mt_5}`}>
-        <CategoryCard
-          categoryUrl={"jewelery"}
-          categoryTitle={"jewelery"}
-          searchTerm={searchTerm.toLowerCase()}
-        />
-      </div>
-      <div className={`${styles.justifyContent} ${styles.mt_5}`}>
-        <CategoryCard
-          categoryUrl={"electronics"}
-          categoryTitle={"electronics"}
-          searchTerm={searchTerm.toLowerCase()}
-        />
-      </div>
+      {searchTerm.length === 0 ? (
+        <>
+          <div className={`${styles.justifyContent} ${styles.mt_5}`}>
+            <CategoryCard
+              categoryUrl={"category/men's%20clothing"}
+              categoryTitle={"men's clothing"}
+            />
+          </div>
+          <div className={`${styles.justifyContent} ${styles.mt_5}`}>
+            <CategoryCard
+              categoryUrl={"category/women's%20clothing"}
+              categoryTitle={"women's clothing"}
+            />
+          </div>
+          <div className={`${styles.justifyContent} ${styles.mt_5}`}>
+            <CategoryCard
+              categoryUrl={"category/jewelery"}
+              categoryTitle={"jewelery"}
+            />
+          </div>
+          <div className={`${styles.justifyContent} ${styles.mt_5}`}>
+            <CategoryCard
+              categoryUrl={"category/electronics"}
+              categoryTitle={"electronics"}
+            />
+          </div>
+        </>
+      ) : (
+        <div className={`${styles.justifyContent} ${styles.mt_5}`}>
+          <CategoryCard
+            categoryUrl={""}
+            categoryTitle={"electronics"}
+            searchTerm={searchTerm.toLowerCase()}
+          />
+        </div>
+      )}
       <div className={styles.footer}>
         <Footer />
       </div>

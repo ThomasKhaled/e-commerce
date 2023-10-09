@@ -161,7 +161,7 @@ const SignIn = () => {
                 <Button
                   type="submit"
                   variant="contained"
-                  sx={{ marginTop: 2, marginBottom: 2 }}
+                  sx={{ marginTop: 2, marginBottom: 4 }}
                 >
                   Sign In
                 </Button>
@@ -172,6 +172,15 @@ const SignIn = () => {
                     className={styles.errorAlert}
                   >
                     You must fill all the fields!
+                  </Alert>
+                )}
+                {pressedSignIn && isStateNull && (
+                  <Alert
+                    variant="filled"
+                    severity="error"
+                    className={styles.errorAlert}
+                  >
+                    You must register first!
                   </Alert>
                 )}
               </Form>

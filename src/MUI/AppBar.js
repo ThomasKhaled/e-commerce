@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -13,6 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useDispatch } from "react-redux";
@@ -66,6 +67,7 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const state = useSelector((state) => state.auth.user);
+  const favoritedProducts = useSelector((state) => state.auth.favoriteProducts);
   const username = `${state.userName[0].toUpperCase()}${state.userName
     .toString()
     .slice(1)}`;
@@ -202,6 +204,13 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
               <IconButton size="large" color="inherit" onClick={handleGoToCart}>
                 <Badge badgeContent={cartState.length} color="error">
                   <ShoppingCartIcon />
+                </Badge>
+              </IconButton>
+            </LightTooltip>
+            <LightTooltip title="Favorite">
+              <IconButton size="large" color="inherit" onClick={handleGoToCart}>
+                <Badge badgeContent={favoritedProducts.length} color="error">
+                  <FavoriteBorderIcon />
                 </Badge>
               </IconButton>
             </LightTooltip>

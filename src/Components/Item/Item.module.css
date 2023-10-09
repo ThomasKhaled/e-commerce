@@ -28,6 +28,23 @@
     background-size: contain !important;
     margin-left: auto;
     margin-right: auto;
+    position: relative;
+}
+
+.favorite {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 20;
+}
+
+.favorite:hover {
+    color: red;
+}
+
+.favorited {
+    color: red;
 }
 
 .itemPrice {
@@ -69,7 +86,6 @@
 }
 
 .ratingBox .ratingCount {
-    margin-left: 5px;
     font-family: 'Nunito', sans-serif;
 
 }

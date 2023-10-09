@@ -8,9 +8,15 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
 import Box from "@mui/material/Box";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../Redux/Cart/cartSlice";
+import {
+  addToFavorite,
+  removeFromFavorite,
+} from "../../Redux/Authentication/authenticationSlice";
 import { LightTooltip } from "../../MUI/LightTooltip";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+
 const Item = ({
   id,
   urlImg,
@@ -20,6 +26,8 @@ const Item = ({
   ratingCount,
   onClick,
 }) => {
+  const state = useSelector((state) => state.auth.favoriteProducts);
+  const isItemFavorited = state.find((item) => item.id === id);
   const dispatch = useDispatch();
 
   const handleAddToCart = () => {
@@ -31,15 +39,40 @@ const Item = ({
     };
     dispatch(addToCart(item));
   };
+
+  const handleAddToFavorite = () => {
+    if (!isItemFavorited) {
+      const item = {
+        id,
+        urlImg,
+        title,
+        price,
+      };
+      dispatch(addToFavorite(item));
+    } else {
+      dispatch(removeFromFavorite(id));
+    }
+  };
   return (
-    <Card sx={{ width: 280, height: 380 }} className={styles.itemCard}>
-      <CardMedia
-        title={title}
-        image={urlImg}
-        className={styles.itemImg}
-        sx={{ padding: "1em 1em 0 1em" }}
-        onClick={onClick}
-      />
+    <Card
+      sx={{ width: { xs: "200px", sm: "280px" }, height: 380 }}
+      className={styles.itemCard}
+    >
+      <div>
+        <CardMedia
+          title={title}
+          image={urlImg}
+          className={styles.itemImg}
+          sx={{ padding: "1em 1em 0 1em" }}
+          onClick={onClick}
+        />
+        <FavoriteBorderIcon
+          className={`${styles.favorite} ${
+            isItemFavorited && styles.favorited
+          }`}
+          onClick={handleAddToFavorite}
+        />
+      </div>
       <CardContent className={styles.itemText} onClick={onClick}>
         <Typography
           className={styles.itemTitle}
@@ -52,7 +85,10 @@ const Item = ({
         <Typography variant="body2" className={styles.itemPrice}>
           {`$${price}`}
         </Typography>
-        <Box className={styles.ratingBox}>
+        <Box
+          className={styles.ratingBox}
+          sx={{ flexDirection: { xs: "column", sm: "row" } }}
+        >
           <Rating
             name="read-only"
             value={ratingValue}
@@ -62,6 +98,7 @@ const Item = ({
           <Typography
             className={styles.ratingCount}
             variant="body2"
+            sx={{ ml: { xs: "-75px ", sm: "15px " } }}
           >{`(${ratingCount})`}</Typography>
         </Box>
       </CardContent>
