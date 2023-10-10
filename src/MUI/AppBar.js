@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -21,6 +21,8 @@ import { useNavigate } from "react-router-dom";
 import { logout } from "../Redux/Authentication/authenticationSlice";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { LightTooltip } from "./LightTooltip";
+import CartPopup from "../Components/CartPopup/CartPopup";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -62,7 +64,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar({ setSearchTerm }) {
   const mainColor = "var(--mainColor)";
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -98,6 +101,14 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
 
   const onSearchBarTextChange = (event) => {
     setSearchTerm(event.target.value);
+  };
+
+  const handleCartPopup = () => {
+    setIsCartPopupOpen(true);
+  };
+
+  const handleExitCartPopup = () => {
+    setIsCartPopupOpen(false);
   };
 
   const mobileMenuId = "primary-search-account-menu-mobile";
@@ -139,6 +150,26 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
       </MenuItem>
     </Menu>
   );
+  const [isSmScreen, setIsSmScreen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Check if the screen width is less than the "sm" breakpoint (e.g., 600 pixels)
+      const isSm = window.innerWidth < 600;
+      setIsSmScreen(isSm);
+    };
+
+    // Attach the resize event listener
+    window.addEventListener("resize", handleResize);
+
+    // Initial check on component mount
+    handleResize();
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -201,14 +232,26 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
               </Typography>
             </LightTooltip>
             <LightTooltip title="Cart">
-              <IconButton size="large" color="inherit" onClick={handleGoToCart}>
+              <IconButton size="large" color="inherit">
                 <Badge badgeContent={cartState.length} color="error">
-                  <ShoppingCartIcon />
+                  <ShoppingCartIcon
+                    onClick={!isSmScreen ? handleCartPopup : handleGoToCart}
+                  />
                 </Badge>
+                <Box>
+                  {isCartPopupOpen && !isSmScreen && (
+                    <CartPopup
+                      cartItems={cartState}
+                      isOpen={isCartPopupOpen}
+                      onClose={handleExitCartPopup}
+                      toCart={handleGoToCart}
+                    />
+                  )}
+                </Box>
               </IconButton>
             </LightTooltip>
             <LightTooltip title="Favorite">
-              <IconButton size="large" color="inherit" onClick={handleGoToCart}>
+              <IconButton size="large" color="inherit">
                 <Badge badgeContent={favoritedProducts.length} color="error">
                   <FavoriteBorderIcon />
                 </Badge>

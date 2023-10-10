@@ -1,0 +1,59 @@
+.itemCard {
+    position: relative;
+    transition: transform 0.5s ease;
+    display: flex;
+    padding: 10px;
+    margin: 15px;
+    width: 100%;
+    max-width: 400px;
+    overflow-x: hidden;
+}
+
+.itemText {
+    display: flex;
+    flex-direction: column;
+}
+
+.itemImg {
+    height: 100px;
+    width: 100px;
+    background-size: contain !important;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+@media screen and (max-width:900px) {
+    .itemImg {
+        height: 70px;
+        width: 70px;
+    }
+}
+
+.itemPrice {
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    color: black;
+    font-family: 'Nunito', sans-serif;
+}
+
+.itemTitle {
+    font-family: 'Nunito', sans-serif;
+    font-size: .8rem;
+}
+
+.button {
+    color: black;
+    padding-left: 0px;
+    margin-left: -8px;
+}
+
+.decIncQty {
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.decIncQty:hover {
+    transform: scale(1.05);
+    color: var(--mainColor);
+}

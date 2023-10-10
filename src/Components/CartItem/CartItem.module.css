@@ -71,3 +71,18 @@
 .deleteItem {
     cursor: pointer;
 }
+
+.decIncQty {
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.decIncQty:hover {
+    transform: scale(1.05);
+    color: var(--mainColor);
+}
+
+.topRowContainer {
+    flex-wrap: nowrap;
+    justify-content: center;
+}

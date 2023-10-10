@@ -1,0 +1,19 @@
+.mainMargin {
+    margin-left: 18px;
+    margin-right: 18px;
+    background-color: rgba(0, 0, 0, 0.521);
+}
+
+.mt {
+    margin-top: 15px !important;
+}
+
+.subtotal {
+    font-weight: 600 !important;
+}
+
+.mainSubtotal {
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 20px;
+}

@@ -34,3 +34,7 @@ body {
 .carouselLAndN .css-1m9128y {
     margin-top: 20px !important;
 }
+
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    max-width: 500px !important;
+}

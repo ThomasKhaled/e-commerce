@@ -14,7 +14,7 @@ import Alert from "@mui/material/Alert";
 import { LightTooltip } from "../../MUI/LightTooltip";
 
 const Cart = () => {
-  const cartState = useSelector((state) => state.cart.cart);
+  const cartState = useSelector((state) => state.cart);
   const cartTotalPrice = useSelector((state) => state.cart.totalPrice);
   const [isCartCleared, setIsCartCleared] = useState(false);
   const [isClearCartPressed, setIsClearCartPressed] = useState(false);
@@ -22,7 +22,7 @@ const Cart = () => {
 
   const handleClearCart = () => {
     setIsClearCartPressed(true);
-    if (cartState.length > 0) dispatch(clearCart());
+    if (cartState.cart.length > 0) dispatch(clearCart());
   };
 
   const firstUpdate = useRef(true);
@@ -44,7 +44,7 @@ const Cart = () => {
     return () => {
       clearTimeout(timer);
     };
-  }, [cartState, isClearCartPressed]);
+  }, [cartState.cart, isClearCartPressed]);
 
   return (
     <Box className={styles.mainContainer}>
@@ -92,7 +92,7 @@ const Cart = () => {
                 marginRight={1}
                 className={styles.clearCart}
               >
-                Clear Cart ({cartState.length})
+                Clear Cart ({cartState.cart.length})
               </Typography>
               <RemoveShoppingCartIcon />
             </Grid>
@@ -100,7 +100,7 @@ const Cart = () => {
           <Divider />
         </Grid>
         <Grid item className={styles.cartGrid}>
-          {cartState.map((product) => (
+          {cartState.cart.map((product) => (
             <>
               <div className={styles.cartItem}>
                 <CartItem
@@ -124,13 +124,13 @@ const Cart = () => {
         >
           <Typography variant="h6" color="initial" component={"span"}>
             Subtotal{" "}
-            {cartState.length > 1 ? (
+            {cartState.cart.length > 1 ? (
               <Typography variant="h6" component={"span"}>
-                ({cartState.length} items)
+                ({cartState.cart.length} items)
               </Typography>
             ) : (
               <Typography variant="h6" component={"span"}>
-                ({cartState.length} item)
+                ({cartState.cart.length} item)
               </Typography>
             )}
             :{" "}

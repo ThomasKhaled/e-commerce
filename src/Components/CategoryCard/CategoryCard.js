@@ -13,7 +13,6 @@ const baseURL = "https://fakestoreapi.com/products/";
 
 const CategoryCard = ({ categoryUrl, categoryTitle, searchTerm = "" }) => {
   const navigate = useNavigate();
-  console.log(`${baseURL}${categoryUrl}`);
   const { posts, isLoading, error, filteredProducts } = useAPI({
     apiURL: `${baseURL}${categoryUrl}`,
     searchTerm: searchTerm,

@@ -77,6 +77,10 @@
     }
 }
 
+.subPriceInfo {
+    margin-bottom: 50px;
+}
+
 .footer {
     background-color: black;
     line-height: 30px;

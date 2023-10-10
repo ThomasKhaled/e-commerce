@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import styles from "./CartItem.module.css";
@@ -15,7 +15,6 @@ import { LightTooltip } from "../../MUI/LightTooltip";
 const CartItem = ({ id, img, title, price, quantity }) => {
   const cartState = useSelector((state) => state.cart.cart);
   const item = cartState.find((item) => item.id === id);
-
   useEffect(() => {
     setQty(item.quantity);
   }, [item]);
@@ -26,10 +25,24 @@ const CartItem = ({ id, img, title, price, quantity }) => {
   };
 
   const [qty, setQty] = React.useState(quantity);
-  const handleQuantityChange = (event) => {
-    const newQty = parseInt(event.target.value);
-    setQty(newQty);
-    dispatch(editCartQuantity({ itemIdToBeEdited: id, newQuantity: newQty }));
+
+  const handleDecreaseAmount = () => {
+    setQty((prev) => {
+      const newCounter = prev - 1;
+      dispatch(
+        editCartQuantity({ itemIdToBeEdited: id, newQuantity: newCounter })
+      );
+      return newCounter;
+    });
+  };
+  const handleIncreaseAmount = () => {
+    setQty((prev) => {
+      const newCounter = prev + 1;
+      dispatch(
+        editCartQuantity({ itemIdToBeEdited: id, newQuantity: newCounter })
+      );
+      return newCounter;
+    });
   };
 
   return (
@@ -68,31 +81,48 @@ const CartItem = ({ id, img, title, price, quantity }) => {
           sm={12}
           md={12}
           lg={12}
-          sx={{ mt: 2, display: "flex", alignItems: "center" }}
+          sx={{
+            mt: 2,
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            alignItems: { xs: "center" },
+            justifyContent: { xs: "center", sm: "space-between" },
+          }}
         >
-          <Grid item>
-            <Box sx={{ minWidth: 20, mr: 2 }}>
-              <FormControl fullWidth>
-                <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                  Qty:
-                </InputLabel>
-                <NativeSelect
-                  value={qty}
-                  inputProps={{
-                    name: "qty",
-                    id: "uncontrolled-native",
-                  }}
-                  onChange={handleQuantityChange}
-                >
-                  <option value={1}>1</option>
-                  <option value={2}>2</option>
-                  <option value={3}>3</option>
-                  <option value={4}>4</option>
-                  <option value={5}>5</option>
-                  <option value={6}>6</option>
-                </NativeSelect>
-              </FormControl>
-            </Box>
+          <Grid
+            container
+            className={styles.topRowContainer}
+            xs={1}
+            alignItems={"center"}
+          >
+            <Grid item>
+              <Typography
+                className={styles.decIncQty}
+                type="button"
+                onClick={handleDecreaseAmount}
+              >
+                -
+              </Typography>
+            </Grid>
+            <Grid item sx={{ ml: 2 }}>
+              <Typography
+                className={styles.itemTitle}
+                gutterBottom
+                variant="body2"
+                component="p"
+              >
+                {qty}
+              </Typography>
+            </Grid>
+            <Grid item sx={{ ml: 2 }}>
+              <Typography
+                className={styles.decIncQty}
+                type="button"
+                onClick={handleIncreaseAmount}
+              >
+                +
+              </Typography>
+            </Grid>
           </Grid>
           <Grid item>
             <LightTooltip title="Remove one only" placement="right">
