@@ -20,17 +20,18 @@ const AboutUs = () => {
       >
         <Grid container justifyContent="center" alignItems="center">
           <Grid item xs={12} sm={10} md={10} lg={12}>
-            <Card elevation={9} sx={{ padding: 2 }}>
+            <Card elevation={9} className={styles.cardContainer}>
               <Typography
                 variant="h2"
                 color="initial"
                 sx={{
                   textAlign: "center",
-                  fontSize: "3.5rem",
+                  fontSize: "2rem",
                   "@media (max-width: 600px)": {
-                    fontSize: "2rem", // Adjust font size for smaller screens
+                    fontSize: "1rem", // Adjust font size for smaller screens
                   },
                 }}
+                className={`${styles.cardContainer} ${styles.titleContainer}`}
               >
                 About Us
               </Typography>
@@ -41,6 +42,7 @@ const AboutUs = () => {
                   textAlign: "center",
                   fontSize: "2.5rem",
                   mb: "15px",
+                  padding: 2,
                   "@media (max-width: 600px)": {
                     fontSize: "1.5rem", // Adjust font size for smaller screens
                   },
@@ -53,6 +55,7 @@ const AboutUs = () => {
                 color="initial"
                 sx={{
                   fontSize: "1rem",
+                  padding: 2,
                   "@media (max-width: 600px)": {
                     fontSize: "0.9rem", // Adjust font size for smaller screens
                   },
@@ -72,6 +75,7 @@ const AboutUs = () => {
                 sx={{
                   mt: 2,
                   fontSize: "1rem",
+                  padding: 2,
                   "@media (max-width: 600px)": {
                     fontSize: "0.9rem", // Adjust font size for smaller screens
                   },

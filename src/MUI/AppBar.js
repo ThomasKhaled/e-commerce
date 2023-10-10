@@ -22,7 +22,6 @@ import { logout } from "../Redux/Authentication/authenticationSlice";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { LightTooltip } from "./LightTooltip";
 import CartPopup from "../Components/CartPopup/CartPopup";
-import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",

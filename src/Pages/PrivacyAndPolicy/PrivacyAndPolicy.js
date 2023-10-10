@@ -20,17 +20,18 @@ const PrivacyAndPolicy = () => {
       >
         <Grid container justifyContent="center" alignItems="center">
           <Grid item xs={12} sm={10} md={10} lg={12}>
-            <Card elevation={9} sx={{ padding: 2 }}>
+            <Card elevation={9} className={styles.cardContainer}>
               <Typography
                 variant="h2"
                 color="initial"
                 sx={{
                   textAlign: "center",
-                  fontSize: "3.8rem",
+                  fontSize: "2rem",
                   "@media (max-width: 600px)": {
-                    fontSize: "2rem", // Adjust font size for smaller screens
+                    fontSize: "1rem", // Adjust font size for smaller screens
                   },
                 }}
+                className={`${styles.cardContainer} ${styles.titleContainer}`}
               >
                 MegaMart
               </Typography>
@@ -40,6 +41,7 @@ const PrivacyAndPolicy = () => {
                 sx={{
                   textAlign: "center",
                   fontSize: "2.5rem",
+                  padding: 2,
                   mb: "15px",
                   "@media (max-width: 600px)": {
                     fontSize: "1.5rem", // Adjust font size for smaller screens
@@ -53,6 +55,7 @@ const PrivacyAndPolicy = () => {
                 color="initial"
                 sx={{
                   fontSize: "1rem",
+                  padding: 2,
                   "@media (max-width: 600px)": {
                     fontSize: "0.9rem", // Adjust font size for smaller screens
                   },
@@ -138,6 +141,7 @@ const PrivacyAndPolicy = () => {
                 color="initial"
                 sx={{
                   mt: 2,
+                  padding: 2,
                   fontSize: "1rem",
                   "@media (max-width: 600px)": {
                     fontSize: "0.9rem", // Adjust font size for smaller screens
@@ -157,6 +161,7 @@ const PrivacyAndPolicy = () => {
                 color="initial"
                 sx={{
                   textAlign: "center",
+                  padding: 2,
                   fontWeight: "800",
                   fontSize: "1.2rem",
                   "@media (max-width: 600px)": {
@@ -171,6 +176,7 @@ const PrivacyAndPolicy = () => {
                 color="var(--mainColor)"
                 sx={{
                   textAlign: "center",
+                  padding: 2,
                   fontWeight: "700",
                   fontSize: "1.2rem",
                   "@media (max-width: 600px)": {

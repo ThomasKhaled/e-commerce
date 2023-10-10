@@ -19,3 +19,12 @@
 .p_p_date {
     font-weight: 1000;
 }
+
+.cardContainer {
+    border: 2px solid var(--mainColor);
+}
+
+.titleContainer {
+    background-color: var(--mainColor);
+    color: white;
+}

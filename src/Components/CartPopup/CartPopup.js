@@ -10,6 +10,10 @@ import Grid from "@mui/material/Grid";
 import styles from "./CartPopup.module.css";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import Box from "@mui/material/Box";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Badge from "@mui/material/Badge";
 
 const CartPopup = ({ cartItems, isOpen, onClose, toCart }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(isOpen);
@@ -26,93 +30,108 @@ const CartPopup = ({ cartItems, isOpen, onClose, toCart }) => {
   return (
     <>
       <Dialog open={isDialogOpen} onClose={handleClose}>
-        <DialogTitle>Your Cart</DialogTitle>
-        <DialogContent>
-          {cartItems.map((post) => (
-            <CartPopupItem
-              key={post.id}
-              id={post.id}
-              urlImg={post.urlImg}
-              title={post.title}
-              price={post.price}
-              qty={post.quantity}
-            />
-          ))}
-        </DialogContent>
-        {cartState.cart.length && (
-          <>
-            <Divider className={styles.mainMargin} />
-            <Grid
-              container
-              justifyContent={"space-between"}
-              className={styles.mainSubtotal}
+        <Card className={styles.dialogContainer}>
+          <Box className={styles.titleBox}>
+            <DialogTitle
+              className={`${styles.dialogContainer} ${styles.titleContainer}`}
             >
-              <Grid item>
-                <Typography variant="body2" color="initial">
-                  Subtotal
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Typography
-                  variant="body2"
-                  color="initial"
-                  className={styles.subtotal}
-                >
-                  ${cartState.totalPrice.toFixed(2)}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid
-              container
-              justifyContent={"space-between"}
-              className={styles.mainSubtotal}
+              Your Cart
+            </DialogTitle>
+            <Badge
+              badgeContent={cartState.cart.length}
+              color="error"
+              className={styles.cartIcon}
             >
-              <Grid item>
-                <Typography variant="body2" color="initial">
-                  Delivery
-                </Typography>
+              <ShoppingCartIcon />
+            </Badge>
+          </Box>
+          <DialogContent>
+            {cartItems.map((post) => (
+              <CartPopupItem
+                key={post.id}
+                id={post.id}
+                urlImg={post.urlImg}
+                title={post.title}
+                price={post.price}
+                qty={post.quantity}
+              />
+            ))}
+          </DialogContent>
+          {cartState.cart.length > 0 ? (
+            <>
+              <Divider className={styles.mainMargin} />
+              <Grid
+                container
+                justifyContent={"space-between"}
+                className={styles.mainSubtotal}
+              >
+                <Grid item>
+                  <Typography variant="body2" color="initial">
+                    Subtotal
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography
+                    variant="body2"
+                    color="initial"
+                    className={styles.subtotal}
+                  >
+                    ${cartState.totalPrice.toFixed(2)}
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Typography
-                  variant="body2"
-                  color="initial"
-                  className={styles.subtotal}
-                >
-                  $10
-                </Typography>
+              <Grid
+                container
+                justifyContent={"space-between"}
+                className={styles.mainSubtotal}
+              >
+                <Grid item>
+                  <Typography variant="body2" color="initial">
+                    Delivery
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography
+                    variant="body2"
+                    color="initial"
+                    className={styles.subtotal}
+                  >
+                    $10
+                  </Typography>
+                </Grid>
               </Grid>
-            </Grid>
-            <Divider className={`${styles.mainMargin} ${styles.mt}`} />
-            <Grid
-              container
-              justifyContent={"space-between"}
-              className={styles.mainSubtotal}
-            >
-              <Grid item>
-                <Typography variant="body2" color="initial">
-                  Total
-                </Typography>
+              <Divider className={`${styles.mainMargin} ${styles.mt}`} />
+              <Grid
+                container
+                justifyContent={"space-between"}
+                className={styles.mainSubtotal}
+              >
+                <Grid item>
+                  <Typography variant="body2" color="initial">
+                    Total
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography
+                    variant="body2"
+                    color="initial"
+                    className={styles.subtotal}
+                  >
+                    ${(cartState.totalPrice + 10).toFixed(2)}
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Typography
-                  variant="body2"
-                  color="initial"
-                  className={styles.subtotal}
-                >
-                  ${(cartState.totalPrice + 10).toFixed(2)}
-                </Typography>
-              </Grid>
-            </Grid>
-          </>
-        )}
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Close
-          </Button>
-          <Button onClick={handleGoToCart} color="primary">
-            Checkout
-          </Button>
-        </DialogActions>
+            </>
+          ) : null}
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Close
+            </Button>
+            <Button onClick={handleGoToCart} color="primary">
+              Checkout
+            </Button>
+          </DialogActions>
+        </Card>
       </Dialog>
     </>
   );
