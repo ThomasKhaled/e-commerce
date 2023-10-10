@@ -26,7 +26,6 @@ const AboutUs = () => {
                 color="initial"
                 sx={{
                   textAlign: "center",
-                  fontFamily: "Nunito",
                   fontSize: "3.5rem",
                   "@media (max-width: 600px)": {
                     fontSize: "2rem", // Adjust font size for smaller screens
@@ -40,7 +39,6 @@ const AboutUs = () => {
                 color="initial"
                 sx={{
                   textAlign: "center",
-                  fontFamily: "Nunito",
                   fontSize: "2.5rem",
                   mb: "15px",
                   "@media (max-width: 600px)": {
@@ -54,7 +52,6 @@ const AboutUs = () => {
                 variant="body2"
                 color="initial"
                 sx={{
-                  fontFamily: "Nunito",
                   fontSize: "1rem",
                   "@media (max-width: 600px)": {
                     fontSize: "0.9rem", // Adjust font size for smaller screens
@@ -74,7 +71,6 @@ const AboutUs = () => {
                 color="initial"
                 sx={{
                   mt: 2,
-                  fontFamily: "Nunito",
                   fontSize: "1rem",
                   "@media (max-width: 600px)": {
                     fontSize: "0.9rem", // Adjust font size for smaller screens
@@ -91,7 +87,6 @@ const AboutUs = () => {
                 sx={{
                   textAlign: "center",
                   fontWeight: "800",
-                  fontFamily: "Nunito",
                   fontSize: "1.2rem",
                   "@media (max-width: 600px)": {
                     fontSize: "1rem", // Adjust font size for smaller screens
@@ -106,7 +101,6 @@ const AboutUs = () => {
                 sx={{
                   textAlign: "center",
                   fontWeight: "700",
-                  fontFamily: "Nunito",
                   fontSize: "1.2rem",
                   "@media (max-width: 600px)": {
                     fontSize: "1rem", // Adjust font size for smaller screens

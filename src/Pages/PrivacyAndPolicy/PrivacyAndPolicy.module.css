@@ -1,0 +1,21 @@
+.mainBox {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.aboutUsContainer {
+    display: "flex";
+    flex-direction: "column";
+    align-items: "center";
+    justify-content: "center";
+    flex: 1;
+}
+
+.p_p_Titles {
+    font-weight: 700;
+}
+
+.p_p_date {
+    font-weight: 1000;
+}

@@ -21,7 +21,6 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 const StyledHeading = styled(Typography)(({ theme }) => ({
   color: "#ffffff",
   marginRight: "10px",
-  fontFamily: "'Nunito', sans-serif",
 }));
 function Item(props) {
   return (

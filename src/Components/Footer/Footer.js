@@ -6,9 +6,12 @@ import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import ResponsivePopup from "../../MUI/ResponsivePopup";
 import { useNavigate } from "react-router-dom";
+import defaultData from "../../utils/defaultData";
 
 const Footer = () => {
   const [openTermsAndConditions, setOpenTermsAndConditions] = useState(false);
+  const [openAboutOurProducts, setOpenAboutOurProducts] = useState(false);
+
   const navigate = useNavigate();
   const handlePopup = () => {
     setOpenTermsAndConditions(true);
@@ -17,8 +20,19 @@ const Footer = () => {
     setOpenTermsAndConditions(false);
   };
 
-  const handleAboutUs = () => {
+  const handlePopupAboutOurProducts = () => {
+    setOpenAboutOurProducts(true);
+  };
+  const handleOnCloseAboutOurProducts = () => {
+    setOpenAboutOurProducts(false);
+  };
+
+  const handleGoToAboutUsPage = () => {
     navigate("/about_us");
+  };
+
+  const handleGoToPrivacyAndPolicyPage = () => {
+    navigate("/privacy&policy");
   };
 
   const mainTextColor = "antiquewhite";
@@ -45,14 +59,19 @@ const Footer = () => {
               <Typography
                 variant="body2"
                 color={mainTextColor}
-                onClick={handleAboutUs}
+                onClick={handleGoToAboutUsPage}
                 sx={{ cursor: "pointer" }}
               >
                 About us
               </Typography>
             </Grid>
             <Grid item>
-              <Typography variant="body2" color={mainTextColor}>
+              <Typography
+                variant="body2"
+                color={mainTextColor}
+                onClick={handlePopupAboutOurProducts}
+                sx={{ cursor: "pointer" }}
+              >
                 About our products
               </Typography>
             </Grid>
@@ -71,7 +90,12 @@ const Footer = () => {
           </Grid>
           <Grid container direction={"row"} justifyContent={"center"}>
             <Grid item sx={{ mr: 1 }}>
-              <Typography variant="body2" color={mainTextColor}>
+              <Typography
+                variant="body2"
+                color={mainTextColor}
+                onClick={handleGoToPrivacyAndPolicyPage}
+                sx={{ cursor: "pointer" }}
+              >
                 Privacy and policy
               </Typography>
             </Grid>
@@ -123,6 +147,14 @@ const Footer = () => {
       <ResponsivePopup
         openD={openTermsAndConditions}
         onCloseD={handleOnClose}
+        title={"MegaMart's Terms and conditions"}
+        text={defaultData.termsAndConditions}
+      />
+      <ResponsivePopup
+        openD={openAboutOurProducts}
+        onCloseD={handleOnCloseAboutOurProducts}
+        title={"MegaMart Products"}
+        text={defaultData.aboutOurProducts}
       />
       <Grid className={styles.copyRights} container justifyContent={"center"}>
         MegaMart &copy; 2022-2023

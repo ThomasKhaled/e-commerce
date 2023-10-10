@@ -6,9 +6,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { useEffect } from "react";
-import defaultData from "../utils/defaultData";
 
-export default function ResponsivePopup({ openD, onCloseD }) {
+export default function ResponsivePopup({ openD, onCloseD, title, text }) {
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -30,13 +29,9 @@ export default function ResponsivePopup({ openD, onCloseD }) {
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id="responsive-dialog-title">
-          {"MegaMart's Terms and conditions"}
-        </DialogTitle>
+        <DialogTitle id="responsive-dialog-title">{title}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            {defaultData.termsAndConditions}
-          </DialogContentText>
+          <DialogContentText>{text}</DialogContentText>
         </DialogContent>
       </Dialog>
     </div>

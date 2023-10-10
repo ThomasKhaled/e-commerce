@@ -6,6 +6,7 @@ import MainPage from "./Pages/Main/MainPage";
 import ItemInfoPage from "./Pages/ItemInfo/ItemInfoPage";
 import Cart from "./Pages/Cart/Cart";
 import AboutUs from "./Pages/AboutUs/AboutUs";
+import PrivacyAndPolicy from "./Pages/PrivacyAndPolicy/PrivacyAndPolicy";
 
 const AppRouter = () => {
   return (
@@ -16,6 +17,7 @@ const AppRouter = () => {
         <Route path="/item" element={<ItemInfoPage />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/about_us" element={<AboutUs />} />
+        <Route path="/privacy&policy" element={<PrivacyAndPolicy />} />
       </Routes>
     </Router>
   );
