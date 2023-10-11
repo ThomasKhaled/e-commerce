@@ -22,6 +22,11 @@
     border: 2px solid var(--mainColor);
 }
 
+.dialogContainer h5 {
+    color: white;
+    padding: 10px;
+}
+
 .titleContainer {
     background-color: var(--mainColor);
     color: white;
@@ -30,15 +35,18 @@
 
 .titleBox {
     display: flex;
-    flex-direction: row;
+    align-items: center;
     justify-content: space-between;
-    position: relative;
+    width: 100%;
+    background-color: var(--mainColor);
 }
 
 .cartIcon {
     color: white;
-    position: absolute;
-    right: 30px;
-    top: 50%;
-    transform: translate(0, -50%);
+    margin-right: 20px;
+}
+
+.dialogActionButtons {
+    background-color: var(--mainColor);
+    color: white;
 }

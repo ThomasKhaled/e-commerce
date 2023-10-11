@@ -118,26 +118,49 @@ const Cart = () => {
         </Grid>
         <Grid
           container
-          justifyContent="flex-end"
+          alignItems={"flex-end"}
+          flexDirection={"column"}
           xs={12}
           className={styles.subPriceInfo}
         >
-          <Typography variant="h6" color="initial" component={"span"}>
-            Subtotal{" "}
-            {cartState.cart.length > 1 ? (
-              <Typography variant="h6" component={"span"}>
-                ({cartState.cart.length} items)
-              </Typography>
-            ) : (
-              <Typography variant="h6" component={"span"}>
-                ({cartState.cart.length} item)
-              </Typography>
-            )}
-            :{" "}
-            <span className={styles.totalPrice}>
-              $ {+cartTotalPrice.toFixed(2)}
-            </span>
-          </Typography>
+          <Grid item>
+            <Typography variant="h6" color="initial" component={"span"}>
+              Subtotal{" "}
+              {cartState.cart.length > 1 ? (
+                <Typography variant="h6" component={"span"}>
+                  ({cartState.cart.length} items)
+                </Typography>
+              ) : (
+                <Typography variant="h6" component={"span"}>
+                  ({cartState.cart.length} item)
+                </Typography>
+              )}
+              :{" "}
+              <span className={styles.totalPrice}>
+                $ {+cartTotalPrice.toFixed(2)}
+              </span>
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography variant="h6" color="initial" component={"span"}>
+              Delivery{" "}
+              {cartState.cart.length > 1 ? (
+                <Typography variant="h6" component={"span"}>
+                  ({cartState.cart.length} items)
+                </Typography>
+              ) : (
+                <Typography variant="h6" component={"span"}>
+                  ({cartState.cart.length} item)
+                </Typography>
+              )}
+              :
+              {cartState.cart.length === 0 ? (
+                <span className={styles.totalPrice}>$ {0}</span>
+              ) : (
+                <span className={styles.totalPrice}>$ {10}</span>
+              )}
+            </Typography>
+          </Grid>
         </Grid>
       </Grid>
       <div className={styles.footer}>

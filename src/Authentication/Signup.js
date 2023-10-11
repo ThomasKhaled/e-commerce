@@ -21,6 +21,9 @@ import { useDispatch } from "react-redux/";
 import { signUp } from "../Redux/Authentication/authenticationSlice";
 import { mergedSchemas } from "./validationSchemas";
 import Alert from "@mui/material/Alert";
+import Box from "@mui/material/Box";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -29,6 +32,12 @@ const Signup = () => {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [isFieldEmpty, setIsFieldEmpty] = useState(true);
   const [pressedSignUp, setPressedSignUp] = useState(false);
+  const [toggleVisibilityIconPassword, setToggleVisibilityIconPassword] =
+    useState(false);
+  const [
+    toggleVisibilityIconConfirmPassword,
+    setToggleVisibilityIconConfirmPassword,
+  ] = useState(false);
 
   const handleSignChange = (event, newStatus) => {
     setSignStatus(newStatus);
@@ -140,40 +149,44 @@ const Signup = () => {
                   </Grid>
                 </Grid>
 
-                <Field
-                  as={TextField}
-                  id="username"
-                  label="Username"
-                  name="userName"
-                  placeholder="Username"
-                  variant="filled"
-                  color="info"
-                  fullWidth
-                  margin="normal"
-                  error={touched.userName && Boolean(errors.userName)}
-                  helperText={touched.userName && errors.userName}
-                  className={styles.test}
-                  InputProps={{
-                    style: mainStyle, // Apply the custom styles to the input element
-                  }}
-                />
-                <Field
-                  as={TextField}
-                  id="email"
-                  label="Email"
-                  name="email"
-                  type="email"
-                  error={touched.email && Boolean(errors.email)}
-                  helperText={touched.email && errors.email}
-                  placeholder="Email"
-                  fullWidth
-                  variant="filled"
-                  color="info"
-                  InputProps={{
-                    style: mainStyle, // Apply the custom styles to the input element
-                  }}
-                />
-                <FormControl margin="normal">
+                <Box mt={2}>
+                  <Field
+                    as={TextField}
+                    id="username"
+                    label="Username"
+                    name="userName"
+                    placeholder="Username"
+                    variant="filled"
+                    color="info"
+                    fullWidth
+                    error={touched.userName && Boolean(errors.userName)}
+                    helperText={touched.userName && errors.userName}
+                    className={styles.test}
+                    InputProps={{
+                      style: mainStyle, // Apply the custom styles to the input element
+                    }}
+                  />
+                </Box>
+                <Box mt={2}>
+                  <Field
+                    as={TextField}
+                    id="email"
+                    label="Email"
+                    name="email"
+                    type="email"
+                    error={touched.email && Boolean(errors.email)}
+                    helperText={touched.email && errors.email}
+                    placeholder="Email"
+                    fullWidth
+                    variant="filled"
+                    color="info"
+                    InputProps={{
+                      style: mainStyle,
+                      // Apply the custom styles to the input element
+                    }}
+                  />
+                </Box>
+                <FormControl sx={{ mt: 2 }}>
                   <FormLabel
                     id="demo-controlled-radio-buttons-group"
                     style={mainStyle}
@@ -213,59 +226,92 @@ const Signup = () => {
                     </Grid>
                   </RadioGroup>
                 </FormControl>
-                <Field
-                  as={TextField}
-                  id="phone"
-                  label="Phone Number"
-                  name="phoneNumber"
-                  type="tel"
-                  placeholder="Phone Number"
-                  fullWidth
-                  margin="normal"
-                  error={touched.phoneNumber && Boolean(errors.phoneNumber)}
-                  helperText={touched.phoneNumber && errors.phoneNumber}
-                  variant="filled"
-                  color="info"
-                  InputProps={{
-                    style: mainStyle, // Apply the custom styles to the input element
-                  }}
-                />
-                <Field
-                  as={TextField}
-                  id="password"
-                  type="password"
-                  name="password"
-                  label="Password"
-                  placeholder="Password"
-                  fullWidth
-                  margin="normal"
-                  error={touched.password && Boolean(errors.password)}
-                  helperText={touched.password && errors.password}
-                  variant="filled"
-                  color="info"
-                  InputProps={{
-                    style: mainStyle,
-                  }}
-                />
-                <Field
-                  as={TextField}
-                  id="confirm_password"
-                  type="password"
-                  name="confirmPassword"
-                  label="Confirm Password"
-                  placeholder="Confirm Password"
-                  fullWidth
-                  margin="normal"
-                  error={
-                    touched.confirmPassword && Boolean(errors.confirmPassword)
-                  }
-                  helperText={touched.confirmPassword && errors.confirmPassword}
-                  variant="filled"
-                  color="primary"
-                  InputProps={{
-                    style: mainStyle, // Apply the custom styles to the input element
-                  }}
-                />
+                <Box mt={2}>
+                  <Field
+                    as={TextField}
+                    id="phone"
+                    label="Phone Number"
+                    name="phoneNumber"
+                    type="tel"
+                    placeholder="Phone Number"
+                    fullWidth
+                    error={touched.phoneNumber && Boolean(errors.phoneNumber)}
+                    helperText={touched.phoneNumber && errors.phoneNumber}
+                    variant="filled"
+                    color="info"
+                    InputProps={{
+                      style: mainStyle, // Apply the custom styles to the input element
+                    }}
+                  />
+                </Box>
+                <Box position={"relative"} mt={2}>
+                  <Field
+                    as={TextField}
+                    id="password"
+                    type={toggleVisibilityIconPassword ? "text" : "password"}
+                    name="password"
+                    label="Password"
+                    placeholder="Password"
+                    fullWidth
+                    error={touched.password && Boolean(errors.password)}
+                    helperText={touched.password && errors.password}
+                    variant="filled"
+                    color="info"
+                    InputProps={{
+                      style: mainStyle,
+                    }}
+                  />
+                  {toggleVisibilityIconPassword ? (
+                    <VisibilityIcon
+                      className={styles.visibilityIcon}
+                      onClick={() => setToggleVisibilityIconPassword(false)}
+                    />
+                  ) : (
+                    <VisibilityOffIcon
+                      className={styles.visibilityIcon}
+                      onClick={() => setToggleVisibilityIconPassword(true)}
+                    />
+                  )}
+                </Box>
+                <Box position={"relative"} mt={2}>
+                  <Field
+                    as={TextField}
+                    id="confirm_password"
+                    type={
+                      toggleVisibilityIconConfirmPassword ? "text" : "password"
+                    }
+                    name="confirmPassword"
+                    label="Confirm Password"
+                    placeholder="Confirm Password"
+                    fullWidth
+                    error={
+                      touched.confirmPassword && Boolean(errors.confirmPassword)
+                    }
+                    helperText={
+                      touched.confirmPassword && errors.confirmPassword
+                    }
+                    variant="filled"
+                    color="primary"
+                    InputProps={{
+                      style: mainStyle, // Apply the custom styles to the input element
+                    }}
+                  />
+                  {toggleVisibilityIconConfirmPassword ? (
+                    <VisibilityIcon
+                      className={styles.visibilityIcon}
+                      onClick={() =>
+                        setToggleVisibilityIconConfirmPassword(false)
+                      }
+                    />
+                  ) : (
+                    <VisibilityOffIcon
+                      className={styles.visibilityIcon}
+                      onClick={() =>
+                        setToggleVisibilityIconConfirmPassword(true)
+                      }
+                    />
+                  )}
+                </Box>
                 <FormGroup>
                   <FormControlLabel
                     control={

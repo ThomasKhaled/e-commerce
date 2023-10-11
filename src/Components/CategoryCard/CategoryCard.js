@@ -101,6 +101,8 @@ const CategoryCard = ({ categoryUrl, categoryTitle, searchTerm = "" }) => {
                   price={post.price}
                   ratingValue={post.rating.rate}
                   ratingCount={post.rating.count}
+                  description={post.description}
+                  category={post.category}
                   onClick={() =>
                     handleClickedItem(
                       post.id,

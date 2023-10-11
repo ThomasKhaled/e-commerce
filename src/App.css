@@ -46,5 +46,5 @@ body {
 }
 
 .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
-    max-width: 500px !important;
+    min-width: 650px !important;
 }

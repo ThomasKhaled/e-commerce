@@ -11,7 +11,7 @@ import styles from "./CartPopup.module.css";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
-import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
 
@@ -31,12 +31,15 @@ const CartPopup = ({ cartItems, isOpen, onClose, toCart }) => {
     <>
       <Dialog open={isDialogOpen} onClose={handleClose}>
         <Card className={styles.dialogContainer}>
-          <Box className={styles.titleBox}>
-            <DialogTitle
+          <div className={styles.titleBox}>
+            <Typography
               className={`${styles.dialogContainer} ${styles.titleContainer}`}
+              variant="h5"
+              color="initial"
             >
               Your Cart
-            </DialogTitle>
+            </Typography>
+
             <Badge
               badgeContent={cartState.cart.length}
               color="error"
@@ -44,7 +47,7 @@ const CartPopup = ({ cartItems, isOpen, onClose, toCart }) => {
             >
               <ShoppingCartIcon />
             </Badge>
-          </Box>
+          </div>
           <DialogContent>
             {cartItems.map((post) => (
               <CartPopupItem
@@ -124,10 +127,18 @@ const CartPopup = ({ cartItems, isOpen, onClose, toCart }) => {
             </>
           ) : null}
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
+            <Button
+              className={styles.dialogActionButtons}
+              onClick={handleClose}
+              color="primary"
+            >
               Close
             </Button>
-            <Button onClick={handleGoToCart} color="primary">
+            <Button
+              className={styles.dialogActionButtons}
+              onClick={handleGoToCart}
+              color="primary"
+            >
               Checkout
             </Button>
           </DialogActions>

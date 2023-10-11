@@ -91,11 +91,17 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
   };
 
   const handleShowProfile = () => {};
+
   const handleGoToCart = () => {
     navigate("/cart");
   };
+
   const handleGoToProfile = () => {
     navigate("/profile");
+  };
+
+  const handleGoToFavorites = () => {
+    navigate("/favorites");
   };
 
   const onSearchBarTextChange = (event) => {
@@ -250,7 +256,11 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
               </IconButton>
             </LightTooltip>
             <LightTooltip title="Favorite">
-              <IconButton size="large" color="inherit">
+              <IconButton
+                size="large"
+                color="inherit"
+                onClick={handleGoToFavorites}
+              >
                 <Badge badgeContent={favoritedProducts.length} color="error">
                   <FavoriteBorderIcon />
                 </Badge>

@@ -24,6 +24,8 @@ const Item = ({
   price,
   ratingValue,
   ratingCount,
+  description,
+  category,
   onClick,
 }) => {
   const state = useSelector((state) => state.auth.favoriteProducts);
@@ -48,6 +50,10 @@ const Item = ({
         urlImg,
         title,
         price,
+        ratingValue,
+        ratingCount,
+        description,
+        category,
       };
       dispatch(addToFavorite(item));
     } else {

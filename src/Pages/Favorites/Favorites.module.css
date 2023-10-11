@@ -1,0 +1,17 @@
+.header {
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.listTitleContainer {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.itemsContainer {
+    margin-top: 100px;
+}

@@ -14,11 +14,16 @@ import { mergedSchemas } from "./validationSchemas";
 import { validationSchemas } from "./validationSchemas";
 import { useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
+import Box from "@mui/material/Box";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const SignIn = () => {
   const [signStatus, setSignStatus] = useState("sign_in");
   const [pressedSignIn, setPressedSignIn] = useState(false);
   const [isStateNull, setIsStateNull] = useState(true);
+  const [toggleVisibilityIconPassword, setToggleVisibilityIconPassword] =
+    useState(false);
   const state = useSelector((state) => state.auth.user);
   const navigate = useNavigate(); // Create a history obj
 
@@ -140,24 +145,36 @@ const SignIn = () => {
                     style: mainStyle, // Apply the custom styles to the input element
                   }}
                 />
-                <Field
-                  as={TextField}
-                  id="password"
-                  type="password"
-                  name="password"
-                  label="Password"
-                  placeholder="Password"
-                  fullWidth
-                  variant="filled"
-                  error={touched.password && Boolean(errors.password)}
-                  helperText={touched.password && errors.password}
-                  color="info"
-                  focused
-                  margin="normal"
-                  InputProps={{
-                    style: mainStyle, // Apply the custom styles to the input element
-                  }}
-                />
+                <Box position={"relative"} mt={2}>
+                  <Field
+                    as={TextField}
+                    id="password"
+                    type={toggleVisibilityIconPassword ? "text" : "password"}
+                    name="password"
+                    label="Password"
+                    placeholder="Password"
+                    fullWidth
+                    variant="filled"
+                    error={touched.password && Boolean(errors.password)}
+                    helperText={touched.password && errors.password}
+                    color="info"
+                    focused
+                    InputProps={{
+                      style: mainStyle, // Apply the custom styles to the input element
+                    }}
+                  />
+                  {toggleVisibilityIconPassword ? (
+                    <VisibilityIcon
+                      className={styles.visibilityIcon}
+                      onClick={() => setToggleVisibilityIconPassword(false)}
+                    />
+                  ) : (
+                    <VisibilityOffIcon
+                      className={styles.visibilityIcon}
+                      onClick={() => setToggleVisibilityIconPassword(true)}
+                    />
+                  )}
+                </Box>
                 <Button
                   type="submit"
                   variant="contained"
