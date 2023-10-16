@@ -16,6 +16,7 @@ import {
 } from "../../Redux/Authentication/authenticationSlice";
 import { LightTooltip } from "../../MUI/LightTooltip";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { db } from "../../config/firebase";
 import { setDoc, doc, getDoc } from "firebase/firestore";
 
@@ -144,14 +145,22 @@ const Item = ({
           sx={{ padding: "1em 1em 0 1em" }}
           onClick={onClick}
         />
-        <LightTooltip title="Add to favorite" placement="top">
+        {isItemFavorited && (
+          <FavoriteIcon
+            className={`${styles.favorite} ${
+              isItemFavorited && styles.favorited
+            }`}
+            onClick={handleAddToFavorite}
+          />
+        )}
+        {!isItemFavorited && (
           <FavoriteBorderIcon
             className={`${styles.favorite} ${
               isItemFavorited && styles.favorited
             }`}
             onClick={handleAddToFavorite}
           />
-        </LightTooltip>
+        )}
       </div>
       <CardContent className={styles.itemText} onClick={onClick}>
         <Typography

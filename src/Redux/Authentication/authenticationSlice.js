@@ -34,6 +34,7 @@ export const authenticationSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.isAuthenticated = false;
+      state.favoriteProducts = [];
     },
   },
 });

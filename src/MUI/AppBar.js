@@ -22,7 +22,8 @@ import { logout } from "../Redux/Authentication/authenticationSlice";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { LightTooltip } from "./LightTooltip";
 import CartPopup from "../Components/CartPopup/CartPopup";
-
+import { signOutFromGoogle } from "../config/firebase";
+import { clearCart } from "../Redux/Cart/cartSlice";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -86,6 +87,8 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
   };
 
   const handleLogout = () => {
+    signOutFromGoogle();
+    dispatch(clearCart());
     dispatch(logout());
     navigate("/");
   };
@@ -133,10 +136,19 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={handleShowProfile}>
+      <MenuItem onClick={handleGoToProfile}>
         <IconButton size="large" color="inherit">
-          <Badge badgeContent={cartState.length} color="error">
-            <AccountCircle />
+          <Badge color="error">
+            <Box
+              component="img"
+              sx={{
+                height: 25,
+                width: 25,
+                borderRadius: "50%",
+              }}
+              alt="The house from the offer."
+              src={state.photo}
+            />
           </Badge>
         </IconButton>
         <p>Profile</p>

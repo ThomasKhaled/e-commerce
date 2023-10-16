@@ -19,4 +19,7 @@ provider.setCustomParameters({
 });
 export const auth = getAuth();
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+export const signOutFromGoogle = () => {
+  auth.signOut();
+};
 export const db = getFirestore(firebaseApp);

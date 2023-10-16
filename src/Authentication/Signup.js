@@ -30,7 +30,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import GoogleIcon from "@mui/icons-material/Google";
 import { signInWithGooglePopup } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
-import { collection, getDoc, doc } from "firebase/firestore";
+import { collection, getDoc, doc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { addToCart } from "../Redux/Cart/cartSlice";
 
@@ -100,6 +100,7 @@ const Signup = () => {
         phone: response.user.phoneNumber,
         uID: response.user.uid,
       };
+      await setDoc(doc(db, `${response.user.uid}/info`), user);
       dispatch(signUp(user));
       await initializeUser(response);
       navigate("/main");

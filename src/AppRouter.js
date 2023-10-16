@@ -8,6 +8,7 @@ import Cart from "./Pages/Cart/Cart";
 import AboutUs from "./Pages/AboutUs/AboutUs";
 import PrivacyAndPolicy from "./Pages/PrivacyAndPolicy/PrivacyAndPolicy";
 import Favorites from "./Pages/Favorites/Favorites";
+import Profile from "./Pages/Profile/Profile";
 
 const AppRouter = () => {
   return (
@@ -20,6 +21,7 @@ const AppRouter = () => {
         <Route path="/about_us" element={<AboutUs />} />
         <Route path="/privacy&policy" element={<PrivacyAndPolicy />} />
         <Route path="/favorites" element={<Favorites />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   );
