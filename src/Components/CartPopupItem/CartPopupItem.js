@@ -6,14 +6,41 @@ import Typography from "@mui/material/Typography";
 import styles from "./CartPopupItem.module.css";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeFromCart } from "../../Redux/Cart/cartSlice";
 import { editCartQuantity } from "../../Redux/Cart/cartSlice";
 import Grid from "@mui/material/Grid";
+import { setDoc, doc, getDoc } from "firebase/firestore";
+import { db } from "../../config/firebase";
+
 const CartPopupItem = ({ id, urlImg, title, price, qty, onClick }) => {
   const dispatch = useDispatch();
+  const userState = useSelector((state) => state.auth.user);
 
-  const handleRemoveFromCart = () => {
+  const deleteFromCart = async (id) => {
+    try {
+      const userDocRef = doc(db, userState.uID, "cart");
+      const userDocSnapshot = await getDoc(userDocRef);
+
+      if (userDocSnapshot.exists()) {
+        const existingCart = userDocSnapshot.data()?.cart || [];
+
+        const indexToDelete = existingCart.findIndex(
+          (cartItem) => cartItem.id === id
+        );
+
+        if (indexToDelete !== -1) {
+          existingCart.splice(indexToDelete, 1);
+          await setDoc(userDocRef, { cart: existingCart }, { merge: true });
+        }
+      }
+    } catch (error) {
+      console.error("Error deleting item from cart:", error);
+    }
+  };
+
+  const handleRemoveFromCart = async () => {
+    await deleteFromCart(id);
     dispatch(removeFromCart(id));
   };
 

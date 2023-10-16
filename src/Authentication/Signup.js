@@ -18,12 +18,21 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { validationSchemas } from "./validationSchemas";
 import { useDispatch } from "react-redux/";
-import { signUp } from "../Redux/Authentication/authenticationSlice";
+import {
+  addToFavorite,
+  signUp,
+} from "../Redux/Authentication/authenticationSlice";
 import { mergedSchemas } from "./validationSchemas";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import GoogleIcon from "@mui/icons-material/Google";
+import { signInWithGooglePopup } from "../config/firebase";
+import { useNavigate } from "react-router-dom";
+import { collection, getDoc, doc } from "firebase/firestore";
+import { db } from "../config/firebase";
+import { addToCart } from "../Redux/Cart/cartSlice";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -38,6 +47,7 @@ const Signup = () => {
     toggleVisibilityIconConfirmPassword,
     setToggleVisibilityIconConfirmPassword,
   ] = useState(false);
+  const navigate = useNavigate();
 
   const handleSignChange = (event, newStatus) => {
     setSignStatus(newStatus);
@@ -56,6 +66,44 @@ const Signup = () => {
   const handleSignup = (user) => {
     dispatch(signUp(user));
     setSignStatus("sign_in");
+  };
+
+  const initializeUser = async (response) => {
+    try {
+      const favRef = doc(db, response.user.uid, "favs"); // Reference the user's document
+      const cartRef = doc(db, response.user.uid, "cart"); // Reference the user's document
+
+      const favsSnapshot = await getDoc(favRef);
+      const existingFavs = favsSnapshot.data()?.favs || [];
+
+      const cartSnapshot = await getDoc(cartRef);
+      const existingCart = cartSnapshot.data()?.cart || [];
+
+      existingFavs.forEach((fav) => {
+        dispatch(addToFavorite(fav));
+      });
+      existingCart.forEach((cart) => {
+        dispatch(addToCart(cart));
+      });
+    } catch (error) {
+      console.error("Error initializing user:", error);
+    }
+  };
+
+  const loginGoogleUser = async () => {
+    const response = await signInWithGooglePopup();
+    if (response.user.uID !== "") {
+      const user = {
+        userName: response.user.displayName,
+        email: response.user.email,
+        photo: response.user.photoURL,
+        phone: response.user.phoneNumber,
+        uID: response.user.uid,
+      };
+      dispatch(signUp(user));
+      await initializeUser(response);
+      navigate("/main");
+    }
   };
 
   const usernameSchema = validationSchemas.userName;
@@ -329,7 +377,7 @@ const Signup = () => {
                 <Button
                   type="submit"
                   variant="contained"
-                  sx={{ marginTop: 2, marginBottom: 8 }}
+                  sx={{ marginTop: 2, marginBottom: 2 }}
                   style={mainStyle}
                   onClick={() => {
                     setPressedSignUp(true);
@@ -359,6 +407,18 @@ const Signup = () => {
                 >
                   Sign Up
                 </Button>
+                <Box className={styles.loginWithGoogle}>
+                  <Button
+                    type="button"
+                    variant="contained"
+                    sx={{ marginTop: 2, marginBottom: 8 }}
+                    style={mainStyle}
+                    onClick={loginGoogleUser}
+                  >
+                    <GoogleIcon className={styles.googleIcon} />
+                    Sign in with Google
+                  </Button>
+                </Box>
                 {pressedSignUp && (isFieldEmpty || !acceptTerms) && (
                   <Alert
                     variant="filled"

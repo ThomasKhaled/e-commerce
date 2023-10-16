@@ -16,6 +16,8 @@ import {
 } from "../../Redux/Authentication/authenticationSlice";
 import { LightTooltip } from "../../MUI/LightTooltip";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { db } from "../../config/firebase";
+import { setDoc, doc, getDoc } from "firebase/firestore";
 
 const Item = ({
   id,
@@ -29,10 +31,33 @@ const Item = ({
   onClick,
 }) => {
   const state = useSelector((state) => state.auth.favoriteProducts);
+  const userState = useSelector((state) => state.auth.user);
+
   const isItemFavorited = state.find((item) => item.id === id);
   const dispatch = useDispatch();
 
-  const handleAddToCart = () => {
+  const updateDBCart = async (item) => {
+    try {
+      const userDocRef = doc(db, userState.uID, "cart");
+      const userDocSnapshot = await getDoc(userDocRef);
+
+      if (userDocSnapshot.exists()) {
+        const existingCart = userDocSnapshot.data()?.cart || [];
+
+        existingCart.push(item);
+
+        await setDoc(userDocRef, { cart: existingCart }, { merge: true });
+
+        console.log("Item added to cart!");
+      } else {
+        await setDoc(userDocRef, { cart: [item] });
+      }
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
+  };
+
+  const handleAddToCart = async () => {
     const item = {
       id,
       urlImg,
@@ -40,23 +65,69 @@ const Item = ({
       price,
       quantity: 1,
     };
+    await updateDBCart(item);
     dispatch(addToCart(item));
   };
 
-  const handleAddToFavorite = () => {
+  const updateFavs = async (item) => {
+    try {
+      const userDocRef = doc(db, userState.uID, "favs");
+      const userDocSnapshot = await getDoc(userDocRef);
+
+      if (userDocSnapshot.exists()) {
+        const existingFavs = userDocSnapshot.data()?.favs || [];
+
+        existingFavs.push(item);
+
+        await setDoc(userDocRef, { favs: existingFavs }, { merge: true });
+
+        console.log("Item added to favs!");
+      } else {
+        await setDoc(userDocRef, { favs: [item] });
+      }
+    } catch (error) {
+      console.error("Error adding item to favs:", error);
+    }
+  };
+
+  const deleteFav = async (item) => {
+    try {
+      const userDocRef = doc(db, userState.uID, "favs");
+      const userDocSnapshot = await getDoc(userDocRef);
+
+      if (userDocSnapshot.exists()) {
+        const existingFavs = userDocSnapshot.data()?.favs || [];
+
+        const indexToDelete = existingFavs.findIndex(
+          (favItem) => favItem.id === item.id
+        );
+
+        if (indexToDelete !== -1) {
+          existingFavs.splice(indexToDelete, 1);
+          await setDoc(userDocRef, { favs: existingFavs }, { merge: true });
+        }
+      }
+    } catch (error) {
+      console.error("Error deleting item from favs:", error);
+    }
+  };
+
+  const handleAddToFavorite = async () => {
+    const item = {
+      id,
+      urlImg,
+      title,
+      price,
+      ratingValue,
+      ratingCount,
+      description,
+      category,
+    };
     if (!isItemFavorited) {
-      const item = {
-        id,
-        urlImg,
-        title,
-        price,
-        ratingValue,
-        ratingCount,
-        description,
-        category,
-      };
+      await updateFavs(item);
       dispatch(addToFavorite(item));
     } else {
+      await deleteFav(item);
       dispatch(removeFromFavorite(id));
     }
   };
