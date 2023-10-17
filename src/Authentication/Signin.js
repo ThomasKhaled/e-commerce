@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useDispatch } from "react-redux";
 import { mergedSchemas } from "./validationSchemas";
 import { validationSchemas } from "./validationSchemas";
 import { useNavigate } from "react-router-dom";
@@ -17,14 +17,22 @@ import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { auth } from "../config/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import Swal from "sweetalert2";
+import { getDoc, doc, collection, getDocs } from "firebase/firestore";
+import { db } from "../config/firebase";
+import { addToCart } from "../Redux/Cart/cartSlice";
+import {
+  addToFavorite,
+  signUp,
+} from "../Redux/Authentication/authenticationSlice";
 
 const SignIn = () => {
+  const dispatch = useDispatch();
   const [signStatus, setSignStatus] = useState("sign_in");
-  const [pressedSignIn, setPressedSignIn] = useState(false);
-  const [isStateNull, setIsStateNull] = useState(true);
   const [toggleVisibilityIconPassword, setToggleVisibilityIconPassword] =
     useState(false);
-  const state = useSelector((state) => state.auth.user);
   const navigate = useNavigate(); // Create a history obj
 
   const handleSignChange = (event, newStatus) => {
@@ -35,6 +43,57 @@ const SignIn = () => {
     color: "white",
     fontSize: "1.1rem",
     borderColor: "white",
+  };
+
+  const logInWithEmailAndPassword = async (email, password) => {
+    try {
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      await initializeEmailAndPasswordUser(response.user);
+      await initializeUser(response.user);
+      navigate("/main");
+    } catch (err) {
+      Swal.fire(err.message);
+    } finally {
+    }
+  };
+
+  const initializeEmailAndPasswordUser = async (userState) => {
+    const userInfo = await getDocs(collection(db, userState.uid));
+
+    userInfo.forEach((uInfoData) => {
+      const uInfo = uInfoData.data();
+      const user = {
+        userName: uInfo.userName,
+        email: uInfo.email,
+        photo: uInfo.photoURL,
+        phone: uInfo.phone,
+        gender: uInfo.gender,
+        uID: uInfo.uID,
+      };
+      dispatch(signUp(user));
+    });
+  };
+
+  const initializeUser = async (response) => {
+    try {
+      const favRef = doc(db, response.uid, "favs"); // Reference the user's document
+      const cartRef = doc(db, response.uid, "cart"); // Reference the user's document
+
+      const favsSnapshot = await getDoc(favRef);
+      const existingFavs = favsSnapshot.data()?.favs || [];
+
+      const cartSnapshot = await getDoc(cartRef);
+      const existingCart = cartSnapshot.data()?.cart || [];
+
+      existingFavs.forEach((fav) => {
+        dispatch(addToFavorite(fav));
+      });
+      existingCart.forEach((cart) => {
+        dispatch(addToCart(cart));
+      });
+    } catch (error) {
+      console.error("Error initializing user:", error);
+    }
   };
 
   const emailSchema = validationSchemas.email;
@@ -67,20 +126,12 @@ const SignIn = () => {
               password: "",
             }}
             validationSchema={merged_Schemas}
-            onSubmit={(values) => {
-              setPressedSignIn(true);
-              if (state === null) {
-                setIsStateNull(true);
-              } else {
-                if (
-                  values.email === state.email &&
-                  values.password === state.password
-                ) {
-                  navigate("/main");
-                } else {
-                  setIsStateNull(false);
-                }
-              }
+            onSubmit={async (values) => {
+              await logInWithEmailAndPassword(values.email, values.password)
+                .then(() => {})
+                .catch((error) => {
+                  Swal.fire(error.message);
+                });
             }}
           >
             {({ touched, errors }) => (
@@ -182,24 +233,6 @@ const SignIn = () => {
                 >
                   Sign In
                 </Button>
-                {pressedSignIn && !isStateNull && (
-                  <Alert
-                    variant="filled"
-                    severity="error"
-                    className={styles.errorAlert}
-                  >
-                    You must fill all the fields!
-                  </Alert>
-                )}
-                {pressedSignIn && isStateNull && (
-                  <Alert
-                    variant="filled"
-                    severity="error"
-                    className={styles.errorAlert}
-                  >
-                    You must register first!
-                  </Alert>
-                )}
               </Form>
             )}
           </Formik>

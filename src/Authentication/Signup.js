@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Field, Form } from "formik";
 import SignIn from "./Signin";
 import Grid from "@mui/material/Grid";
@@ -30,9 +30,12 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import GoogleIcon from "@mui/icons-material/Google";
 import { signInWithGooglePopup } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
-import { collection, getDoc, doc, setDoc } from "firebase/firestore";
+import { getDoc, doc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { addToCart } from "../Redux/Cart/cartSlice";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/firebase";
+import Swal from "sweetalert2";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -63,9 +66,26 @@ const Signup = () => {
     borderColor: "white",
   };
 
-  const handleSignup = (user) => {
-    dispatch(signUp(user));
-    setSignStatus("sign_in");
+  const handleSignup = async (user) => {
+    try {
+      await createUserWithEmailAndPassword(
+        auth,
+        user.email,
+        user.password
+      ).then((data) => {
+        initializeEmailAndPasswordUser({ data, user });
+      });
+
+      // Now that sethas completed, you can proceed
+
+      setSignStatus("sign_in");
+    } catch (error) {
+      if (error.message === "Firebase: Error (auth/email-already-in-use)") {
+        Swal.fire("Email is already in use!");
+      } else {
+        Swal.fire(error.message);
+      }
+    }
   };
 
   const initializeUser = async (response) => {
@@ -107,6 +127,22 @@ const Signup = () => {
     }
   };
 
+  const initializeEmailAndPasswordUser = async ({
+    data: emailAndPassUser,
+    user: u,
+  }) => {
+    if (emailAndPassUser.user.uid !== "") {
+      const user = {
+        userName: u.userName,
+        email: emailAndPassUser.user.email,
+        photo: emailAndPassUser.user.photoURL,
+        phone: u.phoneNumber,
+        gender: gender,
+        uID: emailAndPassUser.user.uid,
+      };
+      await setDoc(doc(db, `${emailAndPassUser.user.uid}/info`), user);
+    }
+  };
   const usernameSchema = validationSchemas.userName;
   const phoneNumberSchema = validationSchemas.phoneNumber;
   const emailSchema = validationSchemas.email;
