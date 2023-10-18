@@ -4,34 +4,10 @@
 }
 
 .header {
-    z-index: 10;
+    z-index: 21;
     position: fixed;
     top: 0;
     width: 100%;
-}
-
-.alertItemAdded {
-    position: fixed;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    bottom: 0;
-    right: 0;
-    width: 180px;
-    height: 70px;
-    z-index: 12;
-    transition: .5s;
-    animation: alertDissappear 3s forwards;
-}
-
-@keyframes alertDissappear {
-    0% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-    }
 }
 
 .justifyContent {

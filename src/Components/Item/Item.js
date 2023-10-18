@@ -19,6 +19,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { db } from "../../config/firebase";
 import { setDoc, doc, getDoc } from "firebase/firestore";
+import Swal from "sweetalert2";
 
 const Item = ({
   id,
@@ -33,7 +34,7 @@ const Item = ({
 }) => {
   const state = useSelector((state) => state.auth.favoriteProducts);
   const userState = useSelector((state) => state.auth.user);
-
+  console.log(urlImg);
   const isItemFavorited = state.find((item) => item.id === id);
   const dispatch = useDispatch();
 
@@ -58,6 +59,15 @@ const Item = ({
     }
   };
 
+  const handleShowItemAddedToCartAlert = () => {
+    Swal.fire({
+      icon: "success",
+      title: "Item Added To Cart!",
+      timer: 1500,
+      showConfirmButton: false,
+    });
+  };
+
   const handleAddToCart = async () => {
     const item = {
       id,
@@ -68,6 +78,7 @@ const Item = ({
     };
     await updateDBCart(item);
     dispatch(addToCart(item));
+    handleShowItemAddedToCartAlert();
   };
 
   const updateFavs = async (item) => {
@@ -113,6 +124,24 @@ const Item = ({
     }
   };
 
+  const handleShowItemAddedToFavsAlert = () => {
+    if (!isItemFavorited) {
+      Swal.fire({
+        icon: "success",
+        title: "Item Added To Favorites!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } else {
+      Swal.fire({
+        icon: "success",
+        title: "Item Removed From Favorites!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    }
+  };
+
   const handleAddToFavorite = async () => {
     const item = {
       id,
@@ -131,6 +160,7 @@ const Item = ({
       await deleteFav(item);
       dispatch(removeFromFavorite(id));
     }
+    handleShowItemAddedToFavsAlert();
   };
   return (
     <Card

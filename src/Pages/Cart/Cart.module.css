@@ -4,7 +4,7 @@
 }
 
 .header {
-    z-index: 10;
+    z-index: 21;
     position: fixed;
     top: 0;
     width: 100%;
@@ -28,33 +28,6 @@
 
 .clearCart:hover {
     color: var(--mainColor);
-}
-
-
-.alertItemAdded {
-    position: fixed;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    bottom: 0px;
-    right: 0;
-    width: 180px;
-    height: 70px;
-    z-index: 12;
-    transition: .5s;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    animation: alertDissappear 4s forwards ease-in;
-}
-
-@keyframes alertDissappear {
-    0% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-    }
 }
 
 @media screen and (max-width: 400px) {

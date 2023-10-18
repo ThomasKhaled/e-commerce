@@ -22,12 +22,12 @@ import {
   addToFavorite,
   removeFromFavorite,
 } from "../../Redux/Authentication/authenticationSlice";
-import Alert from "@mui/material/Alert";
 import { LightTooltip } from "../../MUI/LightTooltip";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import NativeSelect from "@mui/material/NativeSelect";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import Swal from "sweetalert2";
 
 const ItemInfoPage = () => {
   const dispatch = useDispatch();
@@ -48,6 +48,7 @@ const ItemInfoPage = () => {
       quantity: qty,
     };
     dispatch(addToCart(itemToAdd));
+    handleShowItemAddedToCartAlert();
   };
 
   const handleAddToFavorite = () => {
@@ -62,27 +63,8 @@ const ItemInfoPage = () => {
     } else {
       dispatch(removeFromFavorite(id));
     }
+    handleShowItemAddedToFavsAlert();
   };
-
-  const firstUpdate = useRef(true);
-  useEffect(() => {
-    let timer;
-
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
-    }
-
-    setIsCartUpdated(true);
-
-    timer = setTimeout(() => {
-      setIsCartUpdated(false);
-    }, 2000); // 5000 milliseconds = 5 seconds
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [state]);
 
   useEffect(() => {
     setQty(qty);
@@ -93,16 +75,38 @@ const ItemInfoPage = () => {
     setQty(newQty);
   };
 
+  const handleShowItemAddedToCartAlert = () => {
+    Swal.fire({
+      icon: "success",
+      title: "Item Added To Cart!",
+      timer: 1500,
+      showConfirmButton: false,
+    });
+  };
+
+  const handleShowItemAddedToFavsAlert = () => {
+    if (!isItemFavorited) {
+      Swal.fire({
+        icon: "success",
+        title: "Item Added To Favorites!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } else {
+      Swal.fire({
+        icon: "success",
+        title: "Item Removed From Favorites!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    }
+  };
+
   return (
     <div className={styles.mainContainer}>
       <Box sx={{ pb: 10 }}>
         <Header />
       </Box>
-      {isCartUpdated && (
-        <Alert className={styles.alertItemAdded} severity="success">
-          Item added to cart!
-        </Alert>
-      )}
       <Container className={styles.infoContainer}>
         <Grid container spacing={4}>
           <LightTooltip title={title}>

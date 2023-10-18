@@ -12,54 +12,52 @@ import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import { clearCart } from "../../Redux/Cart/cartSlice";
 import Alert from "@mui/material/Alert";
 import { LightTooltip } from "../../MUI/LightTooltip";
-
+import Swal from "sweetalert2";
+import { db } from "../../config/firebase";
+import { setDoc, doc, getDoc } from "firebase/firestore";
 const Cart = () => {
   const cartState = useSelector((state) => state.cart);
   const cartTotalPrice = useSelector((state) => state.cart.totalPrice);
-  const [isCartCleared, setIsCartCleared] = useState(false);
-  const [isClearCartPressed, setIsClearCartPressed] = useState(false);
   const dispatch = useDispatch();
+  const userState = useSelector((state) => state.auth.user);
 
-  const handleClearCart = () => {
-    setIsClearCartPressed(true);
-    if (cartState.cart.length > 0) dispatch(clearCart());
+  const clearDBCart = async () => {
+    try {
+      const userDocRef = doc(db, userState.uID, "cart");
+      const userDocSnapshot = await getDoc(userDocRef);
+
+      if (userDocSnapshot.exists()) {
+        await setDoc(userDocRef, { cart: [] }, { merge: true });
+      } else {
+        await setDoc(userDocRef, { cart: [] });
+      }
+    } catch (error) {
+      console.error("Error clearing cart:", error);
+    }
   };
 
-  const firstUpdate = useRef(true);
-  useEffect(() => {
-    let timer;
-
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
+  const handleClearCart = () => {
+    handleShowCartClearedAlert();
+    if (cartState.cart.length > 0) {
+      dispatch(clearCart());
+      clearDBCart();
     }
-    if (isClearCartPressed) {
-      setIsCartCleared(true);
+  };
 
-      timer = setTimeout(() => {
-        setIsCartCleared(false);
-      }, 4000);
-    }
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [cartState.cart, isClearCartPressed]);
+  const handleShowCartClearedAlert = () => {
+    Swal.fire({
+      icon: "success",
+      title: "Cart Cleared Successfully!",
+      timer: 1500,
+      showConfirmButton: false,
+    });
+  };
 
   return (
     <Box className={styles.mainContainer}>
       <div className={`${styles.header}`}>
         <Header />
       </div>
-      {isCartCleared && (
-        <Alert
-          className={styles.alertItemAdded}
-          variant="filled"
-          severity="error"
-        >
-          Cart Cleared!
-        </Alert>
-      )}
       <Grid
         container
         spacing={2}

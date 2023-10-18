@@ -50,7 +50,16 @@ const SignIn = () => {
       const response = await signInWithEmailAndPassword(auth, email, password);
       await initializeEmailAndPasswordUser(response.user);
       await initializeUser(response.user);
-      navigate("/main");
+      Swal.fire({
+        icon: "success",
+        title: "Loggedin Successfully!",
+        timer: 1500,
+        showConfirmButton: false,
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer) {
+          navigate("/main");
+        }
+      });
     } catch (err) {
       Swal.fire(err.message);
     } finally {

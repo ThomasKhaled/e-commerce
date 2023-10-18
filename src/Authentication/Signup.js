@@ -77,8 +77,7 @@ const Signup = () => {
       });
 
       // Now that sethas completed, you can proceed
-
-      setSignStatus("sign_in");
+      handleShowSignedUpAlert();
     } catch (error) {
       if (error.message === "Firebase: Error (auth/email-already-in-use)") {
         Swal.fire("Email is already in use!");
@@ -156,7 +155,31 @@ const Signup = () => {
     passwordSchema,
     confirmPasswordSchema
   );
-  const customRadioColor = "#5bb6de"; // Replace with your desired color
+  const customRadioColor = "#5bb6de";
+
+  const handleShowErrorAlert = () => {
+    if (isFieldEmpty || !acceptTerms) {
+      Swal.fire({
+        icon: "error",
+        title:
+          "You must fill all the fields and accept the terms and conditions!",
+        timer: 1500,
+      });
+    }
+  };
+
+  const handleShowSignedUpAlert = () => {
+    Swal.fire({
+      icon: "success",
+      title: "Account Registered Successfully!",
+      timer: 1500,
+      showConfirmButton: false,
+    }).then((result) => {
+      if (result.dismiss === Swal.DismissReason.timer) {
+        setSignStatus("sign_in");
+      }
+    });
+  };
 
   return signStatus === "sign_in" ? (
     <SignIn />
@@ -435,10 +458,10 @@ const Signup = () => {
                         handleSignup(user);
                         setIsFieldEmpty(false);
                       } else {
-                        setIsFieldEmpty(true);
+                        handleShowErrorAlert();
                       }
                     } else {
-                      setAcceptTerms(false);
+                      handleShowErrorAlert();
                     }
                   }}
                 >
@@ -456,16 +479,6 @@ const Signup = () => {
                     Sign in with Google
                   </Button>
                 </Box>
-                {pressedSignUp && (isFieldEmpty || !acceptTerms) && (
-                  <Alert
-                    variant="filled"
-                    severity="error"
-                    className={styles.errorAlert}
-                  >
-                    You must fill all the fields and accept the terms and
-                    conditions!
-                  </Alert>
-                )}
               </Form>
             )}
           </Formik>

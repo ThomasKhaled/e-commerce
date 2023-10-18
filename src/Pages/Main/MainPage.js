@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import styles from "./MainPage.module.css";
@@ -6,14 +6,10 @@ import CarouselMain from "../../Components/Carousel/CarouselMain";
 import CategoryCard from "../../Components/CategoryCard/CategoryCard";
 import Fab from "@mui/material/Fab";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { useSelector } from "react-redux/es/hooks/useSelector";
-import Alert from "@mui/material/Alert";
 
 const MainPage = () => {
   const [isButtonVisible, setButtonVisible] = useState(false);
-  const [isCartUpdated, setIsCartUpdated] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const state = useSelector((state) => state.cart.cart);
 
   useEffect(() => {
     // Add scroll event listener to check if the button should be visible
@@ -28,25 +24,6 @@ const MainPage = () => {
   const handleGetSearchTerm = (value) => {
     setSearchTerm(value);
   };
-
-  const firstUpdate = useRef(true);
-  useEffect(() => {
-    let timer;
-
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
-    }
-
-    setIsCartUpdated(true);
-
-    timer = setTimeout(() => {
-      setIsCartUpdated(false);
-    }, 2300); // 5000 milliseconds = 5 seconds
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [state]);
 
   const handleScroll = () => {
     // Show the button if the user has scrolled down 20 pixels or more
@@ -64,6 +41,7 @@ const MainPage = () => {
       behavior: "smooth",
     });
   };
+
   return (
     <div className={styles.mainPageContainer}>
       <Fab
@@ -85,15 +63,6 @@ const MainPage = () => {
       <div className={`${styles.justifyContent} ${styles.mt_5}`}>
         <CarouselMain />
       </div>
-      {isCartUpdated && (
-        <Alert
-          className={styles.alertItemAdded}
-          variant="filled"
-          severity="success"
-        >
-          Item added to cart!
-        </Alert>
-      )}
       {searchTerm.length === 0 ? (
         <>
           <div className={`${styles.justifyContent} ${styles.mt_5}`}>
