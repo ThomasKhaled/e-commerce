@@ -20,6 +20,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { db } from "../../config/firebase";
 import { setDoc, doc, getDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Item = ({
   id,
@@ -60,11 +62,12 @@ const Item = ({
   };
 
   const handleShowItemAddedToCartAlert = () => {
-    Swal.fire({
-      icon: "success",
-      title: "Item Added To Cart!",
-      timer: 1500,
-      showConfirmButton: false,
+    toast.success("Item Added To Cart!", {
+      position: toast.POSITION.TOP_RIGHT,
+      pauseOnFocusLoss: false,
+      pauseOnHover: false,
+      closeButton: true,
+      autoClose: 1000,
     });
   };
 

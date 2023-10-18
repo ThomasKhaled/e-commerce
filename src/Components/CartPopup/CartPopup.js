@@ -29,7 +29,11 @@ const CartPopup = ({ cartItems, isOpen, onClose, toCart }) => {
   };
   return (
     <>
-      <Dialog open={isDialogOpen} onClose={handleClose}>
+      <Dialog
+        className={styles.dialogMainContainer}
+        open={isDialogOpen}
+        onClose={handleClose}
+      >
         <Card className={styles.dialogContainer}>
           <div className={styles.titleBox}>
             <Typography

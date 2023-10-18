@@ -6,7 +6,8 @@ import CarouselMain from "../../Components/Carousel/CarouselMain";
 import CategoryCard from "../../Components/CategoryCard/CategoryCard";
 import Fab from "@mui/material/Fab";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const MainPage = () => {
   const [isButtonVisible, setButtonVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -102,6 +103,7 @@ const MainPage = () => {
       <div className={styles.footer}>
         <Footer />
       </div>
+      <ToastContainer />
     </div>
   );
 };

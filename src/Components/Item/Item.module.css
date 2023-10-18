@@ -26,8 +26,6 @@
 .itemImg {
     height: 180px;
     background-size: contain !important;
-    margin-left: auto;
-    margin-right: auto;
     position: relative;
 }
 
