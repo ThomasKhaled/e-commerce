@@ -36,7 +36,6 @@ const Item = ({
 }) => {
   const state = useSelector((state) => state.auth.favoriteProducts);
   const userState = useSelector((state) => state.auth.user);
-  console.log(urlImg);
   const isItemFavorited = state.find((item) => item.id === id);
   const dispatch = useDispatch();
 

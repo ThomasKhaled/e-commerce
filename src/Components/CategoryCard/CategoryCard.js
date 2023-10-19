@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Item from "../Item/Item";
 import Grid from "@mui/material/Grid";
@@ -8,11 +8,14 @@ import useAPI from "../../hooks/useAPI";
 import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 import { LightTooltip } from "../../MUI/LightTooltip";
+import { useLocation } from "react-router-dom";
 
 const baseURL = "https://fakestoreapi.com/products/";
 
 const CategoryCard = ({ categoryUrl, categoryTitle, searchTerm = "" }) => {
   const navigate = useNavigate();
+  const location = useLocation().pathname;
+
   const { posts, isLoading, error, filteredProducts } = useAPI({
     apiURL: `${baseURL}${categoryUrl}`,
     searchTerm: searchTerm,
@@ -32,9 +35,19 @@ const CategoryCard = ({ categoryUrl, categoryTitle, searchTerm = "" }) => {
     );
   }
 
+  const handleViewAll = () => {
+    navigate("/view_all_category", { state: { categoryTitle, categoryUrl } });
+  };
+
   if (error) return <div>Error: {error.message}</div>;
   if (!posts) return null;
-  const firstFourItems = posts.slice(0, 4);
+  let firstFourItems;
+
+  if (location !== "/view_all_category") {
+    firstFourItems = posts.slice(0, 4);
+  } else {
+    firstFourItems = posts;
+  }
 
   const handleClickedItem = (
     id,
@@ -71,18 +84,20 @@ const CategoryCard = ({ categoryUrl, categoryTitle, searchTerm = "" }) => {
                 </Typography>
               </Typography>
             </Grid>
-            <Grid item>
-              <LightTooltip title={`Browse ${categoryTitle}`}>
-                <Typography
-                  className={styles.catViewAll}
-                  variant="body1"
-                  color="div"
-                >
-                  <span className={styles.viewAllText}>View All </span>
-                  <span className={styles.viewAllArrow}>&gt;</span>
-                </Typography>
-              </LightTooltip>
-            </Grid>
+            {location !== "/view_all_category" && (
+              <Grid item onClick={handleViewAll}>
+                <LightTooltip title={`Browse ${categoryTitle}`}>
+                  <Typography
+                    className={styles.catViewAll}
+                    variant="body1"
+                    color="div"
+                  >
+                    <span className={styles.viewAllText}>View All </span>
+                    <span className={styles.viewAllArrow}>&gt;</span>
+                  </Typography>
+                </LightTooltip>
+              </Grid>
+            )}
           </Grid>
           <Grid
             className={styles.itemContainer}

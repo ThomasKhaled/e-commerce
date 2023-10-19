@@ -1,0 +1,22 @@
+.mainPageContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+.header {
+    z-index: 21;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.justifyContent {
+    display: flex;
+    justify-content: center;
+}
+
+.mt_5 {
+    margin-top: 5rem;
+}

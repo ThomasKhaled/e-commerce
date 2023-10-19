@@ -8,15 +8,14 @@ import Fab from "@mui/material/Fab";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 const MainPage = () => {
   const [isButtonVisible, setButtonVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    // Add scroll event listener to check if the button should be visible
     window.addEventListener("scroll", handleScroll);
 
-    // Clean up the event listener when the component unmounts
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -27,7 +26,6 @@ const MainPage = () => {
   };
 
   const handleScroll = () => {
-    // Show the button if the user has scrolled down 20 pixels or more
     if (window.scrollY > 20) {
       setButtonVisible(true);
     } else {
@@ -36,7 +34,6 @@ const MainPage = () => {
   };
 
   const scrollToTop = () => {
-    // Scroll to the top of the page smoothly
     window.scrollTo({
       top: 0,
       behavior: "smooth",
