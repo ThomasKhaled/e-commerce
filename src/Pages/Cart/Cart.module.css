@@ -54,6 +54,15 @@
     margin-bottom: 50px;
 }
 
+.justifyContent {
+    display: flex;
+    justify-content: center;
+}
+
+.mt_5 {
+    margin-top: 7rem;
+}
+
 .footer {
     background-color: black;
     line-height: 30px;

@@ -47,4 +47,5 @@ body {
 
 .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
     min-width: 650px !important;
+    max-height: 900px;
 }

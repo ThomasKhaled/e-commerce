@@ -24,6 +24,9 @@ import { LightTooltip } from "./LightTooltip";
 import CartPopup from "../Components/CartPopup/CartPopup";
 import { signOutFromGoogle } from "../config/firebase";
 import { clearCart } from "../Redux/Cart/cartSlice";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -93,7 +96,9 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
     navigate("/");
   };
 
-  const handleShowProfile = () => {};
+  const handleGoToMain = () => {
+    navigate("/main");
+  };
 
   const handleGoToCart = () => {
     navigate("/cart");
@@ -117,6 +122,26 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
 
   const handleExitCartPopup = () => {
     setIsCartPopupOpen(false);
+  };
+
+  const handleCartIsEmptyToast = () => {
+    toast.success("Your Cart Is Empty!", {
+      position: toast.POSITION.TOP_RIGHT,
+      pauseOnFocusLoss: false,
+      pauseOnHover: false,
+      closeButton: true,
+      autoClose: 1000,
+    });
+  };
+
+  const handleFavoritesIsEmptyToast = () => {
+    toast.success("Your Favorites List Is Empty!", {
+      position: toast.POSITION.TOP_RIGHT,
+      pauseOnFocusLoss: false,
+      pauseOnHover: false,
+      closeButton: true,
+      autoClose: 1000,
+    });
   };
 
   const mobileMenuId = "primary-search-account-menu-mobile";
@@ -167,13 +192,16 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
       </MenuItem>
     </Menu>
   );
-  const [isSmScreen, setIsSmScreen] = useState(false);
+  const [isSmWScreen, setIsSmWScreen] = useState(false);
+  const [isSmHScreen, setIsSmHScreen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
       // Check if the screen width is less than the "sm" breakpoint (e.g., 600 pixels)
-      const isSm = window.innerWidth < 600;
-      setIsSmScreen(isSm);
+      const isSmW = window.innerWidth < 600;
+      const isSmH = window.innerHeight < 765;
+      setIsSmWScreen(isSmW);
+      setIsSmHScreen(isSmH);
     };
 
     // Attach the resize event listener
@@ -212,9 +240,10 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
               variant="h4"
               noWrap
               component="div"
-              sx={{ display: { xs: "none", sm: "block" } }}
+              sx={{ display: { xs: "none", sm: "block" }, cursor: "pointer" }}
               color={mainColor}
               fontWeight={"bold"}
+              onClick={handleGoToMain}
             >
               MegaMart
             </Typography>
@@ -249,14 +278,22 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
               </Typography>
             </LightTooltip>
             <LightTooltip title="Cart">
-              <IconButton size="large" color="inherit">
+              <IconButton
+                size="large"
+                color="inherit"
+                onClick={
+                  cartState.length < 1
+                    ? handleCartIsEmptyToast
+                    : !isSmWScreen && !isSmHScreen
+                    ? handleCartPopup
+                    : handleGoToCart
+                }
+              >
                 <Badge badgeContent={cartState.length} color="error">
-                  <ShoppingCartIcon
-                    onClick={!isSmScreen ? handleCartPopup : handleGoToCart}
-                  />
+                  <ShoppingCartIcon />
                 </Badge>
                 <Box>
-                  {isCartPopupOpen && !isSmScreen && (
+                  {isCartPopupOpen && !isSmWScreen && !isSmHScreen && (
                     <CartPopup
                       cartItems={cartState}
                       isOpen={isCartPopupOpen}
@@ -271,7 +308,11 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
               <IconButton
                 size="large"
                 color="inherit"
-                onClick={handleGoToFavorites}
+                onClick={
+                  favoritedProducts.length < 1
+                    ? handleFavoritesIsEmptyToast
+                    : handleGoToFavorites
+                }
               >
                 <Badge badgeContent={favoritedProducts.length} color="error">
                   <FavoriteBorderIcon />
