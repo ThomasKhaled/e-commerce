@@ -104,7 +104,7 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
     navigate("/cart");
   };
 
-  const handleGoToProfile = () => {
+  const handleGoToProfile = async () => {
     navigate("/profile");
   };
 
