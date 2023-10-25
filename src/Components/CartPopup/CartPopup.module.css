@@ -55,8 +55,8 @@
 }
 
 .dialogActionButtons {
-    background-color: var(--mainColor);
-    color: white;
+    background-color: var(--mainColor) !important;
+    color: white !important;
 }
 
 .dialogActionButtons:hover {

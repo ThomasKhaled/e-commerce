@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import Header from "../../Components/Header/Header";
 import Footer from "../../Components/Footer/Footer";
 import CategoryCard from "../../Components/CategoryCard/CategoryCard";
@@ -15,12 +15,15 @@ import { LightTooltip } from "../../MUI/LightTooltip";
 import Swal from "sweetalert2";
 import { db } from "../../config/firebase";
 import { setDoc, doc, getDoc } from "firebase/firestore";
+import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const cartState = useSelector((state) => state.cart);
   const cartTotalPrice = useSelector((state) => state.cart.totalPrice);
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleGetSearchTerm = (value) => {
@@ -57,6 +60,12 @@ const Cart = () => {
       timer: 1500,
       showConfirmButton: false,
     });
+
+    navigate("/main", { replace: true });
+  };
+
+  const handleProceedToBuy = () => {
+    navigate("/buy");
   };
 
   return (
@@ -165,6 +174,15 @@ const Cart = () => {
                   <span className={styles.totalPrice}>$ {10}</span>
                 )}
               </Typography>
+            </Grid>
+            <Grid item>
+              <Button
+                className={styles.proceedToBuyButton}
+                variant="contained"
+                onClick={handleProceedToBuy}
+              >
+                Proceed to Buy
+              </Button>
             </Grid>
           </Grid>
         </Grid>

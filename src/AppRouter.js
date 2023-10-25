@@ -10,6 +10,7 @@ import PrivacyAndPolicy from "./Pages/PrivacyAndPolicy/PrivacyAndPolicy";
 import Favorites from "./Pages/Favorites/Favorites";
 import Profile from "./Pages/Profile/Profile";
 import ViewAllCategory from "./Pages/ViewAllCategory/ViewAllCategory";
+import Buy from "./Pages/Buy/Buy";
 
 const AppRouter = () => {
   return (
@@ -23,7 +24,8 @@ const AppRouter = () => {
         <Route path="/privacy&policy" element={<PrivacyAndPolicy />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="//view_all_category" element={<ViewAllCategory />} />
+        <Route path="/view_all_category" element={<ViewAllCategory />} />
+        <Route path="/buy" element={<Buy />} />
       </Routes>
     </Router>
   );

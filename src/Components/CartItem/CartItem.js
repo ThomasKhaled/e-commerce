@@ -86,14 +86,14 @@ const CartItem = ({ id, img, title, price, quantity }) => {
             display: "flex",
             flexDirection: { xs: "column", sm: "row" },
             alignItems: { xs: "center" },
-            justifyContent: { xs: "center", sm: "space-between" },
+            justifyContent: { xs: "start" },
           }}
         >
           <Grid
             container
             className={styles.topRowContainer}
-            xs={1}
-            alignItems={"center"}
+            xs={12}
+            sx={{ justifyContent: { xs: "center", sm: "start" } }}
           >
             <Grid item>
               <Typography

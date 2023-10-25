@@ -63,6 +63,11 @@
     margin-top: 7rem;
 }
 
+.proceedToBuyButton {
+    background-color: var(--mainColor);
+    margin-top: 10px;
+}
+
 .footer {
     background-color: black;
     line-height: 30px;
