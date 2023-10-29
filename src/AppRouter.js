@@ -11,7 +11,7 @@ import Favorites from "./Pages/Favorites/Favorites";
 import Profile from "./Pages/Profile/Profile";
 import ViewAllCategory from "./Pages/ViewAllCategory/ViewAllCategory";
 import Buy from "./Pages/Buy/Buy";
-
+import Completion from "./Pages/Completion/Completion";
 const AppRouter = () => {
   return (
     <Router>
@@ -26,6 +26,7 @@ const AppRouter = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/view_all_category" element={<ViewAllCategory />} />
         <Route path="/buy" element={<Buy />} />
+        <Route path="/completion" element={<Completion />} />
       </Routes>
     </Router>
   );

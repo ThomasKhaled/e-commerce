@@ -10,23 +10,24 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
 import ShippingAddressForm from "../../Components/ShippingAddressForm/ShippingAddressForm";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../config/firebase";
+import { signUp } from "../../Redux/Authentication/authenticationSlice";
+import StripeCheckout from "react-stripe-checkout";
+import Completion from "../Completion/Completion";
 const Buy = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [cardToken, setCardToken] = useState("");
   const [addressExists, setAddressExists] = useState(false);
-
+  const dispatch = useDispatch();
+  const cartTotalPrice = useSelector((state) => state.cart.totalPrice);
   const userState = useSelector((state) => state.auth.user);
 
-  const steps = [
-    "Shipping address",
-    "Choose a payment method",
-    "Place your Order",
-  ];
+  const steps = ["Shipping address", "Choose a payment method", "Thank you"];
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -35,7 +36,14 @@ const Buy = () => {
     return skipped.has(step);
   };
 
+  const onToken = (token) => {
+    setCardToken(token);
+  };
+
   const handleNext = () => {
+    if (activeStep === 2) {
+      return;
+    }
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
@@ -64,6 +72,52 @@ const Buy = () => {
     if (add || userState.address) setAddressExists(true);
   };
 
+  const initializeUserAddress = async () => {
+    try {
+      const addressRef = doc(db, userState.uID, "address"); // Reference the user's document
+
+      const addressSnapshot = await getDoc(addressRef);
+      const existingAddress = addressSnapshot.data()?.address || {};
+
+      const {
+        country,
+        fullname,
+        mobile,
+        streetName,
+        buildingNo,
+        city,
+        district,
+        landmark,
+        countryCode,
+      } = existingAddress;
+      const address = {
+        country,
+        fullname,
+        mobile,
+        streetName,
+        buildingNo,
+        city,
+        district,
+        landmark,
+        countryCode,
+      };
+      const user = {
+        userName: userState.userName,
+        email: userState.email,
+        photo: userState.photoURL,
+        phone: userState.phone,
+        uID: userState.uID,
+        address,
+      };
+      dispatch(signUp(user));
+    } catch (error) {
+      console.error("Error initializing user:", error);
+    }
+  };
+
+  useEffect(() => {
+    initializeUserAddress();
+  }, []);
   return (
     <Box className={styles.mainBox}>
       <div className={`${styles.header}`}>
@@ -88,6 +142,22 @@ const Buy = () => {
           {activeStep === 0 && (
             <ShippingAddressForm fullAddressExists={handleFullAddressExists} />
           )}
+          {activeStep === 1 && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "30px",
+              }}
+            >
+              <StripeCheckout
+                token={onToken}
+                amount={Math.round(cartTotalPrice * 100)}
+                currency="usd"
+                stripeKey="pk_test_51O6bMFGejRGOgN0e88x9TatJEZ0kGLiW5E4c2950ShuXGg2Mqnf86p84Nz0uklYMQLL2h6Sp7iWTI8kFRPjQcDJX00pCFkAFx7"
+              />
+            </div>
+          )}
           {activeStep === steps.length ? (
             <React.Fragment>
               <Typography sx={{ mt: 2, mb: 1 }}>
@@ -100,7 +170,7 @@ const Buy = () => {
           ) : (
             <React.Fragment>
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                {activeStep > 0 && (
+                {activeStep > 0 && activeStep !== 2 && (
                   <Button
                     color="inherit"
                     disabled={activeStep === 0}
@@ -117,21 +187,18 @@ const Buy = () => {
                     onClick={handleNext}
                     className={styles.nextOrFinishButton}
                   >
-                    {activeStep === steps.length - 1
-                      ? "Place Your Order"
-                      : "Next"}
+                    Next
                   </Button>
                 )}
-                {activeStep > 0 && (
+                {activeStep === 1 && cardToken && (
                   <Button
                     onClick={handleNext}
                     className={styles.nextOrFinishButton}
                   >
-                    {activeStep === steps.length - 1
-                      ? "Place Your Order"
-                      : "Next"}
+                    Place Your Order
                   </Button>
                 )}
+                {activeStep === 2 && <Completion />}
               </Box>
             </React.Fragment>
           )}
