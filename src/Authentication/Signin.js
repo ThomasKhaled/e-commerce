@@ -57,7 +57,7 @@ const SignIn = () => {
         showConfirmButton: false,
       }).then((result) => {
         if (result.dismiss === Swal.DismissReason.timer) {
-          navigate("/main");
+          navigate("/main", { replace: true });
         }
       });
     } catch (err) {

@@ -70,6 +70,9 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
 
+  const [isSmWScreen, setIsSmWScreen] = useState(false);
+  const [isSmHScreen, setIsSmHScreen] = useState(false);
+
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const state = useSelector((state) => state.auth.user);
@@ -80,6 +83,27 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
   const cartState = useSelector((state) => state.cart.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Check if the screen width is less than the "sm" breakpoint (e.g., 600 pixels)
+      const isSmW = window.innerWidth < 600;
+      const isSmH = window.innerHeight < 765;
+      setIsSmWScreen(isSmW);
+      setIsSmHScreen(isSmH);
+    };
+
+    // Attach the resize event listener
+    window.addEventListener("resize", handleResize);
+
+    // Initial check on component mount
+    handleResize();
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -164,19 +188,64 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
       <MenuItem onClick={handleGoToProfile}>
         <IconButton size="large" color="inherit">
           <Badge color="error">
-            <Box
-              component="img"
-              sx={{
-                height: 25,
-                width: 25,
-                borderRadius: "50%",
-              }}
-              alt="The house from the offer."
-              src={state.photo}
-            />
+            <AccountCircle />
           </Badge>
         </IconButton>
         <p>Profile</p>
+      </MenuItem>
+      <MenuItem onClick={handleGoToCart}>
+        <IconButton
+          size="large"
+          color="inherit"
+          onClick={
+            cartState.length < 1
+              ? handleCartIsEmptyToast
+              : !isSmWScreen && !isSmHScreen
+              ? handleCartPopup
+              : handleGoToCart
+          }
+        >
+          <Badge badgeContent={cartState.length} color="error">
+            <ShoppingCartIcon />
+            <Box>
+              {isCartPopupOpen && !isSmWScreen && !isSmHScreen && (
+                <CartPopup
+                  cartItems={cartState}
+                  isOpen={isCartPopupOpen}
+                  onClose={handleExitCartPopup}
+                  toCart={handleGoToCart}
+                />
+              )}
+            </Box>
+          </Badge>
+        </IconButton>
+        <p>Cart</p>
+      </MenuItem>
+      <MenuItem onClick={handleGoToFavorites}>
+        <IconButton
+          size="large"
+          color="inherit"
+          onClick={
+            favoritedProducts.length < 1
+              ? handleFavoritesIsEmptyToast
+              : handleGoToFavorites
+          }
+        >
+          <Badge badgeContent={favoritedProducts.length} color="error">
+            <FavoriteBorderIcon />
+            <Box>
+              {isCartPopupOpen && !isSmWScreen && !isSmHScreen && (
+                <CartPopup
+                  cartItems={cartState}
+                  isOpen={isCartPopupOpen}
+                  onClose={handleExitCartPopup}
+                  toCart={handleGoToCart}
+                />
+              )}
+            </Box>
+          </Badge>
+        </IconButton>
+        <p>Favorites</p>
       </MenuItem>
       <MenuItem onClick={handleLogout}>
         <IconButton
@@ -192,29 +261,6 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
       </MenuItem>
     </Menu>
   );
-  const [isSmWScreen, setIsSmWScreen] = useState(false);
-  const [isSmHScreen, setIsSmHScreen] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      // Check if the screen width is less than the "sm" breakpoint (e.g., 600 pixels)
-      const isSmW = window.innerWidth < 600;
-      const isSmH = window.innerHeight < 765;
-      setIsSmWScreen(isSmW);
-      setIsSmHScreen(isSmH);
-    };
-
-    // Attach the resize event listener
-    window.addEventListener("resize", handleResize);
-
-    // Initial check on component mount
-    handleResize();
-
-    // Clean up the event listener on component unmount
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -230,6 +276,7 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={handleMobileMenuOpen}
           >
             <LightTooltip title="Menu">
               <MenuIcon />
