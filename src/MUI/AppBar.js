@@ -86,7 +86,6 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
 
   useEffect(() => {
     const handleResize = () => {
-      // Check if the screen width is less than the "sm" breakpoint (e.g., 600 pixels)
       const isSmW = window.innerWidth < 600;
       const isSmH = window.innerHeight < 765;
       setIsSmWScreen(isSmW);
@@ -145,6 +144,7 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
   };
 
   const handleExitCartPopup = () => {
+    console.log("hena");
     setIsCartPopupOpen(false);
   };
 
@@ -233,16 +233,6 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
         >
           <Badge badgeContent={favoritedProducts.length} color="error">
             <FavoriteBorderIcon />
-            <Box>
-              {isCartPopupOpen && !isSmWScreen && !isSmHScreen && (
-                <CartPopup
-                  cartItems={cartState}
-                  isOpen={isCartPopupOpen}
-                  onClose={handleExitCartPopup}
-                  toCart={handleGoToCart}
-                />
-              )}
-            </Box>
           </Badge>
         </IconButton>
         <p>Favorites</p>

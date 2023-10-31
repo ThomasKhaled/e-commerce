@@ -16,13 +16,15 @@ import Badge from "@mui/material/Badge";
 const CartPopup = ({ cartItems, isOpen, onClose, toCart }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(isOpen);
   const cartState = useSelector((state) => state.cart);
-
   const handleClose = () => {
-    setIsDialogOpen(false);
     onClose();
+    console.log("s");
+    setIsDialogOpen(false);
+    console.log(isDialogOpen);
   };
 
   const handleGoToCart = () => {
+    setIsDialogOpen(false);
     toCart();
   };
   return (
