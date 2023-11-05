@@ -19,6 +19,13 @@ import { db } from "../../config/firebase";
 import { signUp } from "../../Redux/Authentication/authenticationSlice";
 import StripeCheckout from "react-stripe-checkout";
 import Completion from "../Completion/Completion";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import { clearCart } from "../../Redux/Cart/cartSlice";
+
 const Buy = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [cardToken, setCardToken] = useState("");
@@ -32,6 +39,12 @@ const Buy = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
 
+  const [payment, setPayment] = React.useState("cod");
+
+  const handleChange = (event) => {
+    setPayment(event.target.value);
+  };
+
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
@@ -42,6 +55,7 @@ const Buy = () => {
 
   const handleNext = () => {
     if (activeStep === 2) {
+      dispatch(clearCart());
       return;
     }
     let newSkipped = skipped;
@@ -150,12 +164,35 @@ const Buy = () => {
                 marginTop: "30px",
               }}
             >
-              <StripeCheckout
-                token={onToken}
-                amount={Math.round(cartTotalPrice * 100)}
-                currency="usd"
-                stripeKey="pk_test_51O6bMFGejRGOgN0e88x9TatJEZ0kGLiW5E4c2950ShuXGg2Mqnf86p84Nz0uklYMQLL2h6Sp7iWTI8kFRPjQcDJX00pCFkAFx7"
-              />
+              <FormControl>
+                <RadioGroup
+                  aria-labelledby="demo-controlled-radio-buttons-group"
+                  name="controlled-radio-buttons-group"
+                  value={payment}
+                  onChange={handleChange}
+                >
+                  <FormControlLabel
+                    value="cod"
+                    control={<Radio />}
+                    label="COD (Cash On Delivery)"
+                  />
+                  <div>
+                    <FormControlLabel
+                      value="card"
+                      control={<Radio />}
+                      label="Pay with card"
+                    />
+                    {payment === "card" ? (
+                      <StripeCheckout
+                        token={onToken}
+                        amount={Math.round((cartTotalPrice + 10) * 100)}
+                        currency="usd"
+                        stripeKey="pk_test_51O6bMFGejRGOgN0e88x9TatJEZ0kGLiW5E4c2950ShuXGg2Mqnf86p84Nz0uklYMQLL2h6Sp7iWTI8kFRPjQcDJX00pCFkAFx7"
+                      />
+                    ) : null}
+                  </div>
+                </RadioGroup>
+              </FormControl>
             </div>
           )}
           {activeStep === steps.length ? (
@@ -169,7 +206,14 @@ const Buy = () => {
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  pt: 2,
+                  justifyContent: "center",
+                }}
+              >
                 {activeStep > 0 && activeStep !== 2 && (
                   <Button
                     color="inherit"
@@ -190,7 +234,7 @@ const Buy = () => {
                     Next
                   </Button>
                 )}
-                {activeStep === 1 && cardToken && (
+                {activeStep === 1 && (cardToken || payment === "cod") && (
                   <Button
                     onClick={handleNext}
                     className={styles.nextOrFinishButton}
