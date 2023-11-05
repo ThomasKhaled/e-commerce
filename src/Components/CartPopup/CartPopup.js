@@ -17,10 +17,8 @@ const CartPopup = ({ cartItems, isOpen, onClose, toCart }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(isOpen);
   const cartState = useSelector((state) => state.cart);
   const handleClose = () => {
-    onClose();
-    console.log("s");
+    onClose(false);
     setIsDialogOpen(false);
-    console.log(isDialogOpen);
   };
 
   const handleGoToCart = () => {

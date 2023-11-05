@@ -69,6 +69,7 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
   const mainColor = "var(--mainColor)";
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
+  const [openBurgerMenu, setOpenBurgerMenu] = useState(false);
 
   const [isSmWScreen, setIsSmWScreen] = useState(false);
   const [isSmHScreen, setIsSmHScreen] = useState(false);
@@ -110,6 +111,11 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+    setOpenBurgerMenu(true);
+  };
+
+  const handleMobileMenuLeave = () => {
+    setOpenBurgerMenu(false);
   };
 
   const handleLogout = () => {
@@ -140,12 +146,13 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
   };
 
   const handleCartPopup = () => {
-    setIsCartPopupOpen(true);
+    console.log("tr");
+    setIsCartPopupOpen((prev) => !prev);
   };
 
-  const handleExitCartPopup = () => {
-    console.log("hena");
-    setIsCartPopupOpen(false);
+  const handleExitCartPopup = (data) => {
+    console.log("hena" + data);
+    setIsCartPopupOpen(data);
   };
 
   const handleCartIsEmptyToast = () => {
@@ -267,6 +274,7 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
             aria-label="open drawer"
             sx={{ mr: 2 }}
             onClick={handleMobileMenuOpen}
+            onMouseLeave={handleMobileMenuLeave}
           >
             <LightTooltip title="Menu">
               <MenuIcon />
@@ -315,26 +323,24 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
               </Typography>
             </LightTooltip>
             <LightTooltip title="Cart">
-              <IconButton
-                size="large"
-                color="inherit"
-                onClick={
-                  cartState.length < 1
-                    ? handleCartIsEmptyToast
-                    : !isSmWScreen && !isSmHScreen
-                    ? handleCartPopup
-                    : handleGoToCart
-                }
-              >
+              <IconButton size="large" color="inherit">
                 <Badge badgeContent={cartState.length} color="error">
-                  <ShoppingCartIcon />
+                  <ShoppingCartIcon
+                    onClick={
+                      cartState.length < 1
+                        ? handleCartIsEmptyToast
+                        : !isSmWScreen && !isSmHScreen
+                        ? handleCartPopup
+                        : handleGoToCart
+                    }
+                  />
                 </Badge>
                 <Box>
                   {isCartPopupOpen && !isSmWScreen && !isSmHScreen && (
                     <CartPopup
                       cartItems={cartState}
                       isOpen={isCartPopupOpen}
-                      onClose={handleExitCartPopup}
+                      onClose={handleCartPopup}
                       toCart={handleGoToCart}
                     />
                   )}
@@ -385,7 +391,7 @@ export default function PrimarySearchAppBar({ setSearchTerm }) {
           </Box>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
+      {isMobileMenuOpen && renderMobileMenu}
     </Box>
   );
 }
